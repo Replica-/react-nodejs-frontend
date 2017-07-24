@@ -1,17 +1,19 @@
 import merge from 'lodash/merge'
 import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
-import { reducer as form } from 'redux-form'
-import { formOptions, formState, searchResult } from './search'
 
 // Updates an entity cache in response to any action with response.entities.
 function user(state = { }, action) {
-
+  if (action.response && action.response.user) {
+    return merge({}, state, action.response.user)
+  }
   return state
 }
 
 function entities(state = { }, action) {
-
+  if (action.response && action.response.entities) {
+    return merge({}, state, action.response.entities)
+  }
   return state
 }
 
@@ -38,6 +40,7 @@ function config(state = { }, action) {
 
 const rootReducer = combineReducers({
   user,
+  page,
   entities,
   config,
   routing,

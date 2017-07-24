@@ -1,7 +1,7 @@
 import { Schema, arrayOf, normalize } from 'normalizr'
 import { camelizeKeys } from 'humps'
 import 'isomorphic-fetch'
-import { sendMenuUpdate } from '../app/common/PortholeActions'
+
 import config from 'config';
 
 // Extracts the next page URL from Github API response.
@@ -110,10 +110,6 @@ function callApi(endpoint, schema, method, body, store, parameter, form) {
 
             if (json.errors) {
                 return Promise.reject(json.errors[0]);
-            }
-
-            if (json.data.type == "account") {
-                store.dispatch(sendMenuUpdate(window.windowProxy, "", json.data.attributes.loyaltyPoints));
             }
 
             if (schema == 0){

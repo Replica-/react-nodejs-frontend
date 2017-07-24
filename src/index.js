@@ -2,11 +2,6 @@ import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-//Required For LC
-window.React = React;
-
-import { render } from 'react-dom'
-
 import { createMemoryHistory } from 'react-router'
 
 import Root from './app/Root'
@@ -17,10 +12,10 @@ import './styles/App.less';
 import './assets/bootstrap.css';
 
 
-import config from 'config';
+//import config from 'config';
 
-var tinymce = require('./assets/tinymce.min.js');
-$( window ).on( "throttledresize", throttledresizeHandler );
+//var tinymce = require('./assets/tinymce.min.js');
+//$( window ).on( "throttledresize", throttledresizeHandler );
 
 // invoke any methods defined in your JS files to begin execution
 // Get the state tree

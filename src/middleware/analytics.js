@@ -1,5 +1,4 @@
 import 'isomorphic-fetch'
-import { sendTrackEvent } from '../app/common/PortholeActions'
 
 /* Porthole Analytics */
 // Action key that carries GA call info interpreted by this Redux middleware.
@@ -7,7 +6,7 @@ export const CALL_TRACK_EVENT = Symbol('Call GA')
 
 // A Redux middleware that interprets actions with CALL_API info specified.
 // Performs the call and promises when such actions are dispatched.
-export default store => next => reactaction => {
+export default /*store =>*/ next => reactaction => {
     var gaDetails;
 
     // Pick up any router changes
@@ -25,7 +24,7 @@ export default store => next => reactaction => {
         return next(reactaction)
     }
 
-    let { category, action, label, log} = gaDetails
+    let { category, action, /*label, log*/} = gaDetails
 
     if (typeof category !== 'string') {
         throw new Error('Specify a category.')
@@ -35,7 +34,7 @@ export default store => next => reactaction => {
         throw new Error('Specify an action.')
     }
 
-    store.dispatch(sendTrackEvent(category, action, label, log));
+    //store.dispatch(sendTrackEvent(category, action, label, log));
 
     function actionWith(data) {
         const finalAction = Object.assign({}, action, data)

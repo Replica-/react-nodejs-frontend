@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { setShowPage, setHidePage } from './common/PortholeActions'
-import ReactDOM from 'react-dom'
+//import ReactDOM from 'react-dom'
 
 class App extends Component {
     constructor(props) {
@@ -9,23 +8,27 @@ class App extends Component {
     }
 
     componentDidMount() {
+       /*
         window.React.ContentCSS = $('<link rel="stylesheet" type="text/css" href=""/>');
         $('head').append(window.React.ContentCSS);
         window.react.routes = this.props.routes;
         window.React = React;
         window.ReactDOM = ReactDOM;
+        */
     }
 
     componentDidUpdate(){
         if (this.props.stack.length == 1) {
-            var url =  this.props.location.pathname;
+            //var url =  this.props.location.pathname;
 
+            /*
             if (!url.includes("content/")) {
                 if (!url.includes("system/")) {
                     localStorage.setItem('REACT-CSR-openOn', url);
-                    console.error(url);
+
                 }
             }
+            */
         }
     }
 
@@ -66,8 +69,6 @@ App.propTypes = {
 function mapStateToProps(state, ownProps) {
     return {
         stack: state.page.stack,
-        setHidePage: PropTypes.func.isRequired,
-        setShowPage: PropTypes.func.isRequired,
         errorMessage: state.errorMessage,
         inputValue: ownProps.location.pathname.substring(1),
         clientHeight: state.windowSize.screenHeight,
@@ -76,5 +77,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-    setHidePage, setShowPage
+
 })(App)
