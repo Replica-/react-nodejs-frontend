@@ -6,20 +6,7 @@ import analytics from '../../middleware/analytics'
 import rootReducer from '../reducers'
 import config from 'config'
 import { composeWithDevTools } from 'redux-devtools-extension'
-
 import { routerMiddleware } from 'react-router-redux';
-
-window.dontCheck = false;
-window.orientationReact = (window.innerWidth > window.innerHeight)?true:false;
-window.startOrientationReact = window.orientationReact;
-window.maxWidth = window.innerWidth;
-window.minHeight = window.innerHeight;
-window.maxHeight = screen.height;
-window.minWidth = window.maxWidth - (window.maxHeight - window.minHeight);
-
-if (window.innerWidth != 0) {
-    window.dontCheck = true;
-}
 
 export default function configureStore(initialState = {}, history) {
 
@@ -90,38 +77,6 @@ export default function configureStore(initialState = {}, history) {
         }.bind(store), 0);
 
     }, false);
-
-    window.addEventListener('resize', () => {
-        //if (window.dontCheck) return;
-
-        window.setTimeout(function() {
-            var store = this;
-            var width = 0;
-            var height = 0;
-
-            window.orientationReact = (window.innerWidth > window.innerHeight)?true:false;
-            window.maxWidth = window.innerWidth;
-            window.minHeight = window.innerHeight;
-            window.maxHeight = screen.height;
-            window.minWidth = window.maxWidth - (window.maxHeight - window.minHeight);
-
-            if (window.orientationReact == 1){
-                width = window.maxHeight;
-                height = window.minWidth;
-            } else {
-                width = window.maxWidth;
-                height = window.minHeight;
-            }
-
-            // We're going thru several resizes - take the first one thats positive.
-            if (height > 0) {
-                window.dontCheck = true;
-                window.startOrientationReact = window.orientationReact;
-                store.dispatch(screenResize(width, height));
-            }
-
-        }.bind(store), 0);
-    });
 
     if (module.hot) {
         // Enable Webpack hot module replacement for reducers
