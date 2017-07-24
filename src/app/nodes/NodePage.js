@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import List from '../common/List';
 
@@ -9,6 +10,8 @@ import { getCategory } from './NodeActions'
 
 import { decodeEntities } from 'common/Functions';
 import '../../styles/App.less';
+
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class SystemSelectionPage extends PortholeComponent {
 
@@ -51,6 +54,14 @@ class SystemSelectionPage extends PortholeComponent {
                 {titleNode}
                 {description}
                 {listHtml}
+
+                <ReactCSSTransitionGroup
+                    transitionName="example"
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={300}>
+                        <h1>Fading at Initial Mount</h1>
+                </ReactCSSTransitionGroup>
+
             </div>
         );
     }

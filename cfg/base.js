@@ -17,7 +17,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/../../Assets/assets'),
     filename: 'app.js',
-    publicPath: 'http://cms.app:5555/assets'
+    publicPath: 'http://localhost:5555/assets'
   },
   devServer: {
 

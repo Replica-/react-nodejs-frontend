@@ -1,6 +1,9 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 //import ReactDOM from 'react-dom'
+import ReactCSSTransitionGroup from 'react-transition-group';
+
+import { Link, browserHistory } from 'react-router'
 
 class App extends Component {
     constructor(props) {
@@ -12,67 +15,35 @@ class App extends Component {
         window.React.ContentCSS = $('<link rel="stylesheet" type="text/css" href=""/>');
         $('head').append(window.React.ContentCSS);
         window.react.routes = this.props.routes;
-        window.React = React;
-        window.ReactDOM = ReactDOM;
         */
+        window.React = React;
+        /*
+        window.ReactDOM = ReactDOM;
+         */
+
     }
 
     componentDidUpdate(){
-        if (this.props.stack.length == 1) {
-            //var url =  this.props.location.pathname;
 
-            /*
-            if (!url.includes("content/")) {
-                if (!url.includes("system/")) {
-                    localStorage.setItem('REACT-CSR-openOn', url);
-
-                }
-            }
-            */
-        }
     }
 
-    // WebkitOverflowScrolling: 'touch' - will break iframe - or iscroll scrolling. we turn this off to prevent this
     render() {
         const { children } = this.props
+        return (<div id='main'>
 
-        if ((!this.props.showScreen) || (typeof this.props.showScreen == 'undefined')) {
-            return null;
-        }
-
-        return (<div id='mainDiv' style={{
-                WebkitOverflowScrolling: 'touch'
-            }}>
-                {children}
+                 <ReactCSSTransitionGroup
+                 transitionName="example"
+                 transitionEnterTimeout={500}
+                 transitionLeaveTimeout={300}>
+                     {children}
+                 </ReactCSSTransitionGroup>
             </div>);
-        }
-}
-
-App.contextTypes = {
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-}
-
-App.childContextTypes = {
-    windowProxy: PropTypes.object
-}
-
-App.propTypes = {
-    // Injected by React Redux
-    errorMessage: PropTypes.string,
-    inputValue: PropTypes.string.isRequired,
-    // Injected by React Router
-    children: PropTypes.node,
-    location: React.PropTypes.object.isRequired,
+    }
 }
 
 function mapStateToProps(state, ownProps) {
     return {
-        stack: state.page.stack,
-        errorMessage: state.errorMessage,
-        inputValue: ownProps.location.pathname.substring(1),
-        clientHeight: state.windowSize.screenHeight,
-        showScreen: state.config.showPage
+
     }
 }
 

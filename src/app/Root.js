@@ -1,8 +1,10 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 //import config from 'config'
 import { Provider } from 'react-redux'
-import { Route, Router/*, IndexRoute */} from 'react-router'
+import { Route, Router, IndexRoute } from 'react-router'
 import { connect } from 'react-redux';
+
+import Login from '../app/login/LoginPage'
 
 // Component Imports
 import App from './App'
@@ -12,7 +14,6 @@ import App from './App'
 export class Root extends Component {
     constructor (props) {
         super(props);
-
     }
 
     componentDidMount() {
@@ -31,19 +32,22 @@ export class Root extends Component {
 
         }
         */
-        /*
+
         const loadData = ( ) => {
 
         }
-        */
 
         //<IndexRoute component={} onEnter={loadData} />
         //component={nodePage}
+        //onEnter={loadData}
+        //onUpdate={routerUpdate}
         return (
             <Provider store={store}>
-                <Router onUpdate={routerUpdate} history={history}>
-                    <Route name="mainRoute" path="/" component={App}>
-                        <Route name="Login" path="login"/>
+                <Router history={history}>
+                    <Route name="root" path="/" component={App}>
+                        <IndexRoute component={Login} />
+                        <Route name="login" path="/login" component={Login}/>
+                        <Route name="test" path="/test" component={Login}/>
                     </Route>
                 </Router>
             </Provider>
@@ -52,15 +56,8 @@ export class Root extends Component {
 }
 //<DevTools />
 
-Root.propTypes = {
-    store: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-}
-
 const mapStateToProps = (state) => {
       return {
-        clientHeight: state.windowSize.screenHeight,
-        clientWidth: state.windowSize.screenWidth,
 
     }
 }

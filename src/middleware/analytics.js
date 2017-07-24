@@ -6,8 +6,10 @@ export const CALL_TRACK_EVENT = Symbol('Call GA')
 
 // A Redux middleware that interprets actions with CALL_API info specified.
 // Performs the call and promises when such actions are dispatched.
-export default /*store =>*/ next => reactaction => {
+export default store => next => reactaction => {
     var gaDetails;
+
+    store = store;
 
     // Pick up any router changes
     if ( reactaction.type == "@@router/LOCATION_CHANGE" && reactaction.payload.action != "REPLACE" && reactaction.payload.action != "PUSH") {

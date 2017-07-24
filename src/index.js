@@ -22,8 +22,6 @@ import './assets/bootstrap.css';
 const history = createMemoryHistory()
 const store = configureStore({}, history);
 
-window.react = Object.assign(window.react, {history: history})
-
 ReactDOM.render(
     < AppContainer >
     < Root store = {store} history = {history} / >
@@ -46,9 +44,5 @@ if (module.hot) {
         }
     );
 }
-
-
-
-
 
 

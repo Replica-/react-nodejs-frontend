@@ -28,7 +28,7 @@ let config = Object.assign({}, baseConfig, {
   },
   entry: [
     'react-hot-loader/patch',
-    'webpack-dev-server/client?http://cms.app:' + defaultSettings.port,
+    'webpack-dev-server/client?http://localhost:' + defaultSettings.port,
     'webpack/hot/only-dev-server',
     './src/index'
   ],

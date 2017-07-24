@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import styles from './style.css';
+import PropTypes from 'prop-types';
 
 export class Grid extends Component {
     render() {

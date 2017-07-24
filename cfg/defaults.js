@@ -45,7 +45,7 @@ function getDefaultModules() {
 }
 module.exports = {
   srcPath: srcPath,
-  publicPath: 'http://cms.app:5555/assets/',
+  publicPath: 'http://localhost:5555/assets/',
   port: dfltPort,
   getDefaultModules: getDefaultModules,
   postcss: function () {
