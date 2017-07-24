@@ -40,44 +40,6 @@ export default function configureStore(initialState = {}, history) {
         };
     }
 
-    window.addEventListener("orientationchange", function() {
-
-        window.setTimeout(function() {
-            var store = this;
-            var width = 0;
-            var height = 0;
-
-            window.orientationReact = !window.orientationReact;
-
-            if (window.orientationReact == 1){
-                if (window.startOrientationReact) {
-                    height = window.minHeight;
-                    width = window.maxWidth;
-                } else {
-                    width = window.maxHeight;
-                    height = window.minWidth;
-                }
-
-                var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                if (iOS) {
-                    // Status bar tricks
-                    height = height + 20;
-                }
-            } else {
-                if (window.startOrientationReact) {
-                    height = window.minWidth;
-                    width = window.maxHeight;
-                } else {
-                    width = window.maxWidth;
-                    height = window.minHeight;
-                }
-            }
-
-            store.dispatch(screenResize(width, height));
-        }.bind(store), 0);
-
-    }, false);
-
     if (module.hot) {
         // Enable Webpack hot module replacement for reducers
         module.hot.accept('../reducers', () => {

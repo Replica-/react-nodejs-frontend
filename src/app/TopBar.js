@@ -7,9 +7,9 @@ export default class TopBar extends Component {
         return (
             <div className="top-bar">
             <nav>
-            <NavLink exact to="/">Home</NavLink>
-            <NavLink to="/projects">Projects</NavLink>
-            <NavLink to="/idontexist">Non-existent route</NavLink>
+
+            <NavLink to="/login">Projects</NavLink>
+            <NavLink to="/nodes">Non-existent route</NavLink>
         </nav>
         </div>
     )

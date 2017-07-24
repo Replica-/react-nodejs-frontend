@@ -1,6 +1,6 @@
 import merge from 'lodash/merge'
-import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
+import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 
 // Updates an entity cache in response to any action with response.entities.
 function user(state = { }, action) {
