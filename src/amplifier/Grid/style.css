@@ -1,0 +1,24 @@
+.gridWrap {
+  overflow: auto;
+  margin: 0;
+}
+.gridCell:nth-child(3n+3) {
+  margin-right: 0!important;
+}
+
+.gridCell {
+  position: relative;
+  width: 31.3333%;
+  box-sizing: border-box;
+  float: left;
+  text-align: center;
+  min-height: 120px;
+  border: 1px solid #ddd;
+  margin: 0 3% 3% 0;
+}
+.gridCell a:active {
+  opacity: 0.5;
+  display: block;
+}
+
+
