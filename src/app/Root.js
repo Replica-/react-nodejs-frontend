@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
+
+
 //import config from 'config'
 import { Provider } from 'react-redux'
-import { Route, Router, IndexRoute } from 'react-router'
+import { BrowserRouter as Router, Route, IndexRoute } from 'react-router-dom'
 import { connect } from 'react-redux';
 
-import Login from '../app/login/LoginPage'
+import TransitionGroup from "react-transition-group/TransitionGroup";
+import AnimatedSwitch from "./AnimatedSwitch";
+
+import LoginPage from '../app/login/LoginPage'
+import NodePage from '../app/nodes/NodePage'
 
 // Component Imports
 import App from './App'
@@ -27,12 +33,6 @@ export class Root extends Component {
 
         }
 
-        /*
-        const routerEnter = (nextState) => {
-
-        }
-        */
-
         const loadData = ( ) => {
 
         }
@@ -41,16 +41,35 @@ export class Root extends Component {
         //component={nodePage}
         //onEnter={loadData}
         //onUpdate={routerUpdate}
+
+//    <Provider store={store}>
+        //  </Provider>
         return (
-            <Provider store={store}>
-                <Router history={history}>
-                    <Route name="root" path="/" component={App}>
-                        <IndexRoute component={Login} />
-                        <Route name="login" path="/login" component={Login}/>
-                        <Route name="test" path="/test" component={Login}/>
-                    </Route>
-                </Router>
-            </Provider>
+                <Route
+                    render={({ location }) => (
+                    <TransitionGroup component="main">
+                        <AnimatedSwitch
+                    key={location.key}
+                    location={location}
+                        >
+                        <Route exact path="/" component={App} />
+                        <Route exact path="/login"
+                            render={props => (
+                                <LoginPage {...props} />
+                        )}
+                        />
+                <Route
+                    path="/nodes"
+                    render={props => (
+                    <NodePage {...props}/>
+                )}
+                />
+                <Route component={LoginPage} />
+                        </AnimatedSwitch>
+                        </TransitionGroup>
+                )}
+                />
+
         )
     }
 }

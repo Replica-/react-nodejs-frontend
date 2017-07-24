@@ -1,1 +1,22 @@
 @import "variables.less";
+
+.fade-enter,
+.fade-appear,
+.fade-exit {
+  transition: all 500ms;
+}
+.fade-enter,
+.fade-appear {
+  opacity: 0;
+}
+.fade-enter-active,
+.fade-appear-active {
+  opacity: 1
+}
+.fade-exit {
+  transition: all 500ms;
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0
+}

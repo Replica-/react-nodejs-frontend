@@ -1,9 +1,10 @@
 import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-import { createMemoryHistory } from 'react-router'
-
+import { BrowserRouter as Router } from "react-router-dom";
+import { render } from "react-dom";
+import createHistory from 'history/createMemoryHistory'
+import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 import Root from './app/Root'
 import configureStore from './app/store/configureStore'
 import { AppContainer } from 'react-hot-loader';
@@ -19,30 +20,28 @@ import './assets/bootstrap.css';
 
 // invoke any methods defined in your JS files to begin execution
 // Get the state tree
+//const history = createMemoryHistory()
+//const store = configureStore({}, history);
+
+window.react = {};
+//window.react.history = history;
+
 const history = createMemoryHistory()
 const store = configureStore({}, history);
 
-ReactDOM.render(
-    < AppContainer >
-    < Root store = {store} history = {history} / >
-    < / AppContainer >,
-    document.getElementById('react')
+
+const renderApp = Component =>
+render(
+<Provider store={store}>
+    <ConnectedRouter history={history}>
+    <Component />
+    </ConnectedRouter>
+    </Provider>
+    ,
+    document.getElementById("react")
 );
 
-// Hot Module Replacement API
-if (module.hot) {
-    module.hot.accept('./app/Root', () => {
-        const NextApp = require('./app/Root').default;
+renderApp(Root);
 
-        ReactDOM.render(
-            < AppContainer >
-            < NextApp
-            store = {store}
-            history = {history} / >
-            < / AppContainer >,
-            document.getElementById('react'));
-        }
-    );
-}
-
+if (module.hot) module.hot.accept("./app/Root", () => renderApp(Root));
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import List from '../common/List';
@@ -11,9 +11,8 @@ import { getCategory } from './NodeActions'
 import { decodeEntities } from 'common/Functions';
 import '../../styles/App.less';
 
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-class SystemSelectionPage extends PortholeComponent {
+class NodePage extends Component {
 
     constructor (props) {
         super(props);
@@ -50,18 +49,7 @@ class SystemSelectionPage extends PortholeComponent {
 
         return (
             <div className="class-NodeSelectionPage" id="NodeSelectionPage">
-                {breadCrumb}
-                {titleNode}
-                {description}
-                {listHtml}
-
-                <ReactCSSTransitionGroup
-                    transitionName="example"
-                    transitionEnterTimeout={500}
-                    transitionLeaveTimeout={300}>
-                        <h1>Fading at Initial Mount</h1>
-                </ReactCSSTransitionGroup>
-
+             TESTTEST TEST TEST
             </div>
         );
     }
@@ -73,4 +61,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
- export default connect(mapStateToProps, { getCategory, pushBreadcrumb, clearBreadcrumb, popBreadcrumb }) (SystemSelectionPage)
+ export default connect(mapStateToProps, {  }) (NodePage)

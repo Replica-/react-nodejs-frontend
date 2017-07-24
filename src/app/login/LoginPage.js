@@ -9,6 +9,7 @@ class LoginPage extends Component {
 
     constructor (props) {
         super(props);
+        console.error(props);
     }
 
     componentWillUpdate(nextProps) {
@@ -22,7 +23,7 @@ class LoginPage extends Component {
 
     render() {
         return (
-            <div className="class-LoginPage" id="LoginPage">
+            <div className="class-LoginPage" style={{background:"red"}} id="LoginPage">
                 <p>Form</p>
             </div>
         );

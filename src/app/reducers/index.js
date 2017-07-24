@@ -31,19 +31,26 @@ function page(state = { }, action) {
 function config(state = { }, action) {
 
   if (action.response && action.response.config) {
+
+    if (action.mode == "unset") {
+      if (state.page) {
+        delete state.page;
+      }
+      return merge({}, state);
+    }
+
     return merge({}, state, action.response.config)
   }
 
-  return state
+  return merge({}, state);
 }
-
 
 const rootReducer = combineReducers({
   user,
   page,
   entities,
   config,
-  routing,
+  router: routerReducer
 })
 
 export default rootReducer

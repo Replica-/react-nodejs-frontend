@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { showPage, hidePage } from './common/CommonActions'
 //import ReactDOM from 'react-dom'
-import ReactCSSTransitionGroup from 'react-transition-group';
+
+
+import PropTypes from 'prop-types';
 
 import { Link, browserHistory } from 'react-router'
 
 class App extends Component {
+
     constructor(props) {
-        super(props)
+        super(props);
+
     }
 
     componentDidMount() {
@@ -21,32 +26,39 @@ class App extends Component {
         window.ReactDOM = ReactDOM;
          */
 
+
     }
 
     componentDidUpdate(){
-
+        console.error("update");
     }
 
     render() {
-        const { children } = this.props
-        return (<div id='main'>
+/*
+        if (!this.props.show) {
+            return (<div id='main'>wee</div>);
+        }
+*/
+        const { children} = this.props
 
-                 <ReactCSSTransitionGroup
-                 transitionName="example"
-                 transitionEnterTimeout={500}
-                 transitionLeaveTimeout={300}>
-                     {children}
-                 </ReactCSSTransitionGroup>
-            </div>);
+        return (
+            <div id='main'>
+            {children}
+            </div>
+       );
     }
 }
 
 function mapStateToProps(state, ownProps) {
-    return {
+    console.error(state.config);
 
+    return {
+        show: state.config.page?true:false,
+        showPage: PropTypes.func.isRequired,
+        hidePage: PropTypes.func.isRequired,
     }
 }
 
 export default connect(mapStateToProps, {
-
+    showPage, hidePage,
 })(App)

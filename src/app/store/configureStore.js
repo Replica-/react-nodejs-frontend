@@ -6,7 +6,7 @@ import analytics from '../../middleware/analytics'
 import rootReducer from '../reducers'
 import config from 'config'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { routerMiddleware } from 'react-router-redux';
+import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 
 export default function configureStore(initialState = {}, history) {
 
