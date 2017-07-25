@@ -9,7 +9,7 @@ class LoginPage extends Component {
 
     constructor (props) {
         super(props);
-        console.error(props);
+
     }
 
     componentWillUpdate(nextProps) {
@@ -17,14 +17,13 @@ class LoginPage extends Component {
     }
 
     componentDidMount() {
-        //super.componentDidMount();
-        //super.componentPostLoad();
+
     }
 
     render() {
         return (
             <div className="class-LoginPage" style={{background:"red"}} id="LoginPage">
-                <p>Form</p>
+                <p>Form4</p>
             </div>
         );
     }

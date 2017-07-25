@@ -24,7 +24,7 @@ class NodePage extends Component {
     render() {
         return (
             <div className="class-NodePage" style={{background:"green"}} id="NodePage">
-            <p>Form</p>
+            <p>Form5</p>
             </div>
     );
     }
