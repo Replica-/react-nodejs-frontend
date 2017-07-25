@@ -9,7 +9,20 @@ import { Provider } from 'react-redux'
 import { CSSTransitionGroup } from 'react-transition-group'
 
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
-import { Route, IndexRoute } from 'react-router-dom'
+import { Route, IndexRoute, Redirect } from 'react-router-dom'
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+<Route {...rest} render={props => (
+    false ? (
+    <Component {...props}/>
+) : (
+<Redirect to={{
+    pathname: '/login',
+        state: { from: props.location }
+}}/>
+)
+)}/>
+)
 
 class Root extends Component {
     constructor (props) {
@@ -47,7 +60,7 @@ class Root extends Component {
                                     transitionLeaveTimeout={500}
                                 >
 
-                                <Route
+                                <PrivateRoute
                                     location={location}
                                     key={location.key}
                                     path="/nodes"
