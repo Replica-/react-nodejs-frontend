@@ -7,6 +7,7 @@ import rootReducer from '../reducers'
 import config from 'config'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
+import { reducer as reduxFormReducer } from 'redux-form';
 
 export default function configureStore(initialState = {}, history) {
 
@@ -29,15 +30,6 @@ export default function configureStore(initialState = {}, history) {
                 applyMiddleware(thunk, reduxRouterMiddleware, api, analytics),
             )
         )
-    }
-
-    const SCREEN_RESIZE = 'SCREEN_RESIZE';
-    function screenResize(width, height) {
-        return {
-            type: SCREEN_RESIZE,
-            screenWidth: width,
-            screenHeight: height,
-        };
     }
 
     if (module.hot) {

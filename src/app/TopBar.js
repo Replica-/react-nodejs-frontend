@@ -8,8 +8,8 @@ export default class TopBar extends Component {
             <div className="top-bar">
             <nav>
 
-            <NavLink to="/login">Projects</NavLink>
-            <NavLink to="/nodes">Non-existent route</NavLink>
+            <NavLink to="/login">Menu Item 1</NavLink>
+            <NavLink to="/nodes">Menu Item 2</NavLink>
         </nav>
         </div>
     )

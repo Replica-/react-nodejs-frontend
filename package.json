@@ -76,7 +76,6 @@
     "redux-devtools-dock-monitor": "^1.1.1",
     "redux-devtools-log-monitor": "^1.0.9",
     "redux-devtools-themes": "^1.0.0",
-    "redux-form": "^6.2.0",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.0.1",
     "rimraf": "^2.4.3",
@@ -102,6 +101,7 @@
     "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.3.1",
     "redux-devtools-extension": "^1.0.0",
+    "redux-form": "^7.0.2",
     "redux-promise": "^0.5.3"
   }
 }

@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import { connect } from 'react-redux';
 
 import '../../styles/App.less';
-
+import LoginForm from './LoginForm'
 
 
 class LoginPage extends Component {
@@ -23,7 +23,7 @@ class LoginPage extends Component {
     render() {
         return (
             <div className="class-LoginPage" style={{background:"red"}} id="LoginPage">
-                <p>Form4</p>
+                <LoginForm/>
             </div>
         );
     }
