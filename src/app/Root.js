@@ -1,28 +1,39 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import LoginPage from './login/LoginPage'
-import NodePage from './nodes/NodePage'
+import LoginPage from 'pages/login/LoginPage'
+import SplashPage from 'pages/splash/SplashPage'
 
-import TopBar from './TopBar'
+
+import App from './App'
+
 import { Provider } from 'react-redux'
 import { CSSTransitionGroup } from 'react-transition-group'
 
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 import { Route, IndexRoute, Redirect } from 'react-router-dom'
+import { Row, Col, Grid, Button } from 'react-bootstrap';
+
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
-<Route {...rest} render={props => (
-    false ? (
-    <Component {...props}/>
-) : (
-<Redirect to={{
-    pathname: '/login',
-        state: { from: props.location }
-}}/>
+    <Route {...rest} render={props => (
+         true ? (<Component {...props}/>) :
+(
+    <Redirect to={{
+        pathname: '/login',
+        state: { from: props.location }}}/>
 )
 )}/>
-)
+);
+
+const Transition = ({ children, ...rest }) => (
+    <CSSTransitionGroup
+    transitionName="fade"
+    transitionEnterTimeout={500}
+    transitionLeaveTimeout={500}>
+        {children}
+    </CSSTransitionGroup>
+);
 
 class Root extends Component {
     constructor (props) {
@@ -37,42 +48,30 @@ class Root extends Component {
             <Provider store={store}>
                 <ConnectedRouter history={history}>
                     <Route render={({ location }) => (
-                    <div className="wrapper">
-                        <TopBar/>
-                            <div>
-                                <CSSTransitionGroup
-                                    transitionName="fade"
-                                    transitionEnterTimeout={500}
-                                    transitionLeaveTimeout={500}
-                                >
+                        <App>
+                            <Transition>
+                                <Route path="/" exact location={location}  key={location.key} component={SplashPage}/>
+                            </Transition>
 
+                            <Transition>
                                 <Route
                                     location={location}
                                     key={location.key}
                                     path="/login"
                                     component={LoginPage}
                                 />
-                                </CSSTransitionGroup>
+                            </Transition>
 
-                                <CSSTransitionGroup
-                                    transitionName="fade"
-                                    transitionEnterTimeout={500}
-                                    transitionLeaveTimeout={500}
-                                >
-
+                            <Transition>
                                 <PrivateRoute
                                     location={location}
                                     key={location.key}
                                     path="/nodes"
-                                    component={NodePage}
+                                    component={SplashPage}
                                 />
-
-                                </CSSTransitionGroup>
-
-                            </div>
-
-                            </div>
-                     )}/>
+                            </Transition>
+                        </App>
+                    )}/>
                 </ConnectedRouter>
             </Provider>);
     }

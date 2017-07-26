@@ -9,12 +9,10 @@ import configureStore from './app/store/configureStore'
 import { AppContainer } from 'react-hot-loader';
 
 import './styles/App.less';
-import './assets/bootstrap.css';
+//import './assets/bootstrap.css';
 
-
-//import Root from './app/Root'
-
-//import config from 'config';
+//import 'bootstrap/dist/css/bootstrap.css';
+import { Button } from 'reactstrap';
 
 window.react = {};
 

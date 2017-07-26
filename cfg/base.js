@@ -41,6 +41,7 @@ module.exports = {
       amplifier: `${defaultSettings.srcPath}/amplifier/`,
       app: `${defaultSettings.srcPath}/app/`,
       common: `${defaultSettings.srcPath}/app/common/`,
+      pages: `${defaultSettings.srcPath}/app/pages/`,
       styles: `${defaultSettings.srcPath}/styles/`,
       config: `${defaultSettings.srcPath}/config/` + process.env.REACT_WEBPACK_ENV
     }

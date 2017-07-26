@@ -1,15 +1,13 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
-
-import '../../styles/App.less';
+import { PageComponent }  from 'common/Page';
 import LoginForm from './LoginForm'
-
+import { Row, Col, Grid, Button, Nav, NavItem, ButtonToolbar } from 'react-bootstrap';
 
 class LoginPage extends Component {
 
     constructor (props) {
         super(props);
-
     }
 
     componentWillUpdate(nextProps) {
@@ -22,9 +20,13 @@ class LoginPage extends Component {
 
     render() {
         return (
-            <div className="class-LoginPage" style={{background:"red"}} id="LoginPage">
-                <LoginForm/>
-            </div>
+            <Grid>
+                <Row>
+                    <Col xs={12} sm={6}>
+                        <LoginForm/>
+                    </Col>
+                </Row>
+            </Grid>
         );
     }
 }
@@ -35,4 +37,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, {  }) (LoginPage)
+export default connect(mapStateToProps, {  }) (PageComponent(LoginPage))
