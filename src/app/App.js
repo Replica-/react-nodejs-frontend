@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { showPage, hidePage } from './common/CommonActions'
 import { Row, Col, Grid, Button } from 'react-bootstrap';
 import TopBar from 'common/TopBar'
+import SideBar from 'common/SideBar'
+import NavBar from 'common/NavBar'
 
 import PropTypes from 'prop-types';
 
@@ -27,7 +29,14 @@ class App extends Component {
             <Grid>
                 <Row>
                     <Col md={12}>
-                        <TopBar/>
+                        <NavBar/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={4}>
+                        <SideBar/>
+                    </Col>
+                    <Col md={8}>
                         {children}
                     </Col>
                 </Row>

@@ -15,6 +15,7 @@ import { Route, IndexRoute, Redirect } from 'react-router-dom'
 import { Row, Col, Grid, Button } from 'react-bootstrap';
 
 
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
          true ? (<Component {...props}/>) :
@@ -50,7 +51,7 @@ class Root extends Component {
                     <Route render={({ location }) => (
                         <App>
                             <Transition>
-                                <Route path="/" exact location={location}  key={location.key} component={SplashPage}/>
+                                <Route path="/" exact location={location}  key={location.key} component={LoginPage}/>
                             </Transition>
 
                             <Transition>

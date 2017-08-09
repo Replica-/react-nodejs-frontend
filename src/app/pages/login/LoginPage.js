@@ -20,13 +20,13 @@ class LoginPage extends Component {
 
     render() {
         return (
-            <Grid>
-                <Row>
-                    <Col xs={12} sm={6}>
+
+                <Row className="justify-content-md-center">
+                    <Col xs={12} smOffset={3} sm={6} mdOffset={0} md={12}>
                         <LoginForm/>
                     </Col>
                 </Row>
-            </Grid>
+
         );
     }
 }

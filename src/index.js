@@ -9,7 +9,16 @@ import configureStore from './app/store/configureStore'
 import { AppContainer } from 'react-hot-loader';
 
 import './styles/App.less';
-//import './assets/bootstrap.css';
+
+window.jQuery = require('jquery');
+window.$ = require('jquery');
+
+require('./assets/bootstrap/bootstrap.min.css');
+
+require('./assets/metisMenu.css');
+require('./assets/metisMenu.js');
+require('./assets/bootstrap-theme/css/sb-admin-2.css');
+require('./assets/bootstrap-theme/js/sb-admin-2.js');
 
 //import 'bootstrap/dist/css/bootstrap.css';
 import { Button } from 'reactstrap';
