@@ -10,8 +10,10 @@ import { AppContainer } from 'react-hot-loader';
 
 import './styles/App.less';
 
-window.jQuery = require('jquery');
-window.$ = require('jquery');
+var jquery = require('jquery');
+
+window.jQuery = jquery;
+window.$ = jquery;
 
 require('./assets/bootstrap/bootstrap.min.css');
 

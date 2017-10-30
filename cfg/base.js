@@ -1,7 +1,7 @@
 'use strict';
 let path = require('path');
 let defaultSettings = require('./defaults');
-
+var webpack = require('webpack')
 // Additional npm or bower modules to include in builds
 // Add all foreign plugins you may need into this array
 // @example:
@@ -19,6 +19,7 @@ module.exports = {
     filename: 'app.js',
     publicPath: 'http://localhost:5555/assets'
   },
+
   devServer: {
 
     headers: {
@@ -48,3 +49,13 @@ module.exports = {
   },
   module: {}
 };
+
+
+/*
+ plugins: [
+ new webpack.ProvidePlugin({
+ $: "jquery",
+ jQuery: "jquery"
+ })
+ ],
+ */

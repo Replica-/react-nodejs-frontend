@@ -59,7 +59,7 @@ const LoginForm = props => {
         <form role="form">
         <fieldset>
         <div className="form-group">
-        <input className="form-control" placeholder="E-mail" name="email" type="email" autofocus/>
+        <input className="form-control" placeholder="E-mail" name="email" type="email" autoFocus/>
     </div>
     <div className="form-group">
         <input className="form-control" placeholder="Password" name="password" type="password" value=""/>

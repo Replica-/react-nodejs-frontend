@@ -21,11 +21,11 @@ class LoginPage extends Component {
     render() {
         return (
 
-                <Row className="justify-content-md-center">
-                    <Col xs={12} smOffset={3} sm={6} mdOffset={0} md={12}>
+                <div className="justify-content-md-center">
+                    <Col xs={12} smOffset={5} sm={6} mdOffset={0} md={12}>
                         <LoginForm/>
                     </Col>
-                </Row>
+                </div>
 
         );
     }
