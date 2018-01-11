@@ -1,4 +1,4 @@
-# Club Dog Front end
+# React frontend
 
 Connect to Laravel backend - Laravel because it is supported by Netregistry CPanel hosting.
 
