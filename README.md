@@ -1,7 +1,17 @@
-# React frontend
+
+# React - Redux - Karma - Redux frontend
 
 Connect to Laravel backend - Laravel because it is supported by Netregistry CPanel hosting.
 
-## Uses
+ - React & Redux
+ - React Router, Redux Form, React Transition Groups
+ - Karma & Mocha
+ - Webpack
 
-React / Redux / React Router / Redux Form / React Transition Groups
+
+## NPM Commands
+
+ - npm start 
+ - npm dist 
+ - npm test
+
