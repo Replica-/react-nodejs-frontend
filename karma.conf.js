@@ -1,11 +1,15 @@
+'use strict';
+
+var path = require('path');
 var webpackCfg = require('./webpack.config');
+webpackCfg.entry = {};
 
 module.exports = function(config) {
   config.set({
-    basePath: '',
+    basePath: './src',
     browsers: [ 'Chrome' ],
     files: [
-      'test/loadtests.js'
+      'loadtests.js'
     ],
     port: 8080,
     captureTimeout: 60000,
@@ -16,7 +20,7 @@ module.exports = function(config) {
     singleRun: true,
     reporters: [ 'dots' ], 
     preprocessors: {
-      'test/loadtests.js': [ 'webpack', 'sourcemap' ]
+      'loadtests.js': [ 'webpack', 'sourcemap' ]
     },
     webpack: webpackCfg,
     webpackServer: {
