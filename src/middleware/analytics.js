@@ -36,8 +36,6 @@ export default store => next => reactaction => {
         throw new Error('Specify an action.')
     }
 
-    //store.dispatch(sendTrackEvent(category, action, label, log));
-
     function actionWith(data) {
         const finalAction = Object.assign({}, action, data)
         delete finalAction[CALL_TRACK_EVENT]

@@ -22,40 +22,13 @@ export const API_ROOT = config.API_ROOT;
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
-function callApi(endpoint, schema, method, body, store, parameter, form) {
-
+function callApi(endpoint, schema, method, body, store, parameter, form, fetchToken) {
 
     const fullUrl = ((endpoint.indexOf("http://") != 0 && endpoint.indexOf("https://") != 0)) ? API_ROOT + endpoint : endpoint
 
-    /*
-    function fakeFetch (fullUrl) {
-
-        var jsonData = {};
-
-        jsonData.ok = true;
-        jsonData.headers = {};
-        jsonData.headers.get = function () {
-            return false;
-        }
-
-        // Level 1
-
-        if (fullUrl == "http://csr.app/rest/V1/categories/") {
-            jsonData.json = function () {
-                return new Promise((resolve, reject) => {
-                    return resolve(JSON.parse('{"data":[{"type":"category","id":"111","attributes":{"id":"111","title":"Steel Framed Wall Systems", "type": "category"}},{"type":"category","id":"112","attributes":{"id":"112","title":"Timber Framed Wall Systems", "type": "category"}}]}'));
-                });
-            }
-        }
-
-        return Promise.resolve(jsonData);
-    }
-    */
-
-    //fakeFetch vs fetch
-    // window.config.auth.getEncryptedToken()
-
     var initObject = null;
+
+    const token = window.token;
 
     if (form) {
 
@@ -64,36 +37,22 @@ function callApi(endpoint, schema, method, body, store, parameter, form) {
         for ( var key in form ) {
             form_data = key + "=" + encodeURIComponent(form[key]) + "&" + form_data;
         }
-        var userId = JSON.parse(window.config.auth.getToken()).userId;
 
         initObject = {
             method:method,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'Appid' : window.config.appId,
-                'Token' : userId
+                'Token' :token
             },
             body:form_data
         };
     } else {
-        //'Token' : window.config.auth.getEncryptedToken(),
-        var userId = "-1";
-
-        if (JSON.parse(window.config.auth.getToken()) != null) {
-            userId = JSON.parse(window.config.auth.getToken()).userId;
-            window.react.userId = userId;
-        } else {
-            if (endpoint != "category/"){
-                return Promise.reject("");
-            }
-        }
 
         initObject = {
             method:method,
             headers: {
                 'Content-Type': 'application/json',
-                'Token' : userId,
-                'Appid' : window.config.appId
+                'Token' : token,
             },
             body:body
         };
@@ -116,10 +75,10 @@ function callApi(endpoint, schema, method, body, store, parameter, form) {
                 return Promise.resolve(json);
             }
 
-
             // Store user configguation
-            if (schema == Schemas.USER) {
-                return Promise.resolve({"user": json.data.attributes});
+            if (fetchToken) {
+                window.localStorage.setItem("token", json.data);
+                window.token = json.data;
             }
 
             const camelizedJson = camelizeKeys(json.data)

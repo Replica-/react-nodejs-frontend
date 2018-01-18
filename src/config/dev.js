@@ -4,9 +4,8 @@ import baseConfig from './base';
 
 let config = {
   appEnv: 'dev',  // feel free to remove the appEnv property here
-  API_ROOT: '',
-  UI_ROOT: 'http://csr.app:5555/',
-  module: 'CSR',
+  API_ROOT: 'http://localhost:8000',
+  UI_ROOT: 'http://frontend.app:5555/',
   S3_BUCKET: ''
 };
 

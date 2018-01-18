@@ -12,3 +12,4 @@ export function hidePage(pageName) {
         return dispatch({type:HIDE_PAGE, mode: "unset", response: { config: { page : null }}});
     }
 }
+

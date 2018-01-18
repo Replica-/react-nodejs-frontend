@@ -6,7 +6,7 @@ const WebpackDevServer = require('webpack-dev-server');
 const config = require('./webpack.config');
 const open = require('open');
 
-console.log("Starting...");
+console.log("Starting...\n");
 console.log(config.devServer);
 console.log(config.output.path);
 
