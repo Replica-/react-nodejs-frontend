@@ -42,7 +42,7 @@ function callApi(endpoint, schema, method, body, store, parameter, form, fetchTo
             method:method,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'Token' :token
+                'X-Access-Token' :token
             },
             body:form_data
         };
@@ -52,7 +52,7 @@ function callApi(endpoint, schema, method, body, store, parameter, form, fetchTo
             method:method,
             headers: {
                 'Content-Type': 'application/json',
-                'Token' : token,
+                'X-Access-Token' : token,
             },
             body:body
         };
@@ -73,6 +73,15 @@ function callApi(endpoint, schema, method, body, store, parameter, form, fetchTo
 
             if (schema == 0){
                 return Promise.resolve(json);
+            }
+
+            if (schema == Schemas.USER) {
+                const camelizedJson = camelizeKeys(json.data)
+
+                return Object.assign({},{entities: { user: camelizedJson}}
+                    ,
+                    { nextPageUrl, parameter }
+                )
             }
 
             // Store user configguation

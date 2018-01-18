@@ -3,8 +3,9 @@ import { CALL_API, Schemas } from '../../../middleware/api';
 export const TOKEN_REQUEST = 'TOKEN_REQUEST'
 export const TOKEN_SUCCESS = 'TOKEN_SUCCESS'
 export const TOKEN_FAILURE = 'TOKEN_FAILURE'
-
-export const UPDATE_ACCOUNT_MANUAL = 'UPDATE_ACCOUNT_MANUAL'
+export const AUTH_REQUEST = 'AUTH_REQUEST'
+export const AUTH_SUCCESS = 'AUTH_SUCCESS'
+export const AUTH_FAILURE = 'AUTH_FAILURE'
 
 // Fetch if not cached
 export function clearTokens() {
@@ -28,15 +29,53 @@ export function setTokens(trusted, trustedToken) {
 
 // Fetches a single user from Github API.
 // Relies on the custom API middleware defined in ../middleware/api.js.
-export function authenticateUser(login, password) {
+export function authenticate(login, password) {
+    return {
+        [CALL_API]: {
+            types: [ AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILURE ],
+            endpoint: '/authorize',
+            method: 'POST',
+            body: '',
+            schema: Schemas.USER,
+            form: {username: login, password: password},
+
+        }
+    }
+}
+
+// Fetches a single user from Github API.
+// Relies on the custom API middleware defined in ../middleware/api.js.
+export function obtainToken() {
+
+    return (dispatch, getState) => {
+        // Check if authorization code exists
+        console.error(getState().entities.user.authorizationCode);
+        return dispatch(obtainTokenStep(getState().entities.user.authorizationCode));
+    }
+/*
+    const authorisationCode = window.auth_code;
+
+    dispatch({
+        [CALL_API]: {
+            types: [ TOKEN_REQUEST, TOKEN_SUCCESS, TOKEN_FAILURE ],
+            endpoint: '/accesstoken',
+            method: 'POST',
+            schema: Schemas.NONE,
+            form: {authorization_code: authorisationCode},
+            fetchToken: true
+        }
+    }
+    */
+}
+
+export function obtainTokenStep(authcode) {
     return {
         [CALL_API]: {
             types: [ TOKEN_REQUEST, TOKEN_SUCCESS, TOKEN_FAILURE ],
-            endpoint: '/user/auth',
+            endpoint: '/accesstoken',
             method: 'POST',
-            body: '{"data": {"type": "account","attributes": {"username": "' + login + '","password": "' + password + '"}}}',
             schema: Schemas.USER,
-            form: {email: login, password: password},
+            form: {authorization_code: authcode},
             fetchToken: true
         }
     }

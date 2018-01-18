@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux'
 import LoginPage from 'pages/login/LoginPage'
 import SplashPage from 'pages/splash/SplashPage'
-
 
 import App from './App'
 
@@ -14,18 +13,17 @@ import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-ro
 import { Route, IndexRoute, Redirect } from 'react-router-dom'
 import { Row, Col, Grid, Button } from 'react-bootstrap';
 
+const PrivateRoute = ({ component: Component, ...rest }) => {
 
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route {...rest} render={props => (
-         true ? (<Component {...props}/>) :
-(
-    <Redirect to={{
-        pathname: '/login',
-        state: { from: props.location }}}/>
-)
-)}/>
-);
+    return (
+    <Route {...rest} render={props => (!props.authenticated ? (<Component {...props}/>) :
+        (
+            <Redirect to={{
+                pathname: '/login',
+                state: { from: props.location }}}/>
+        )
+    )}/>
+)};
 
 const Transition = ({ children, ...rest }) => (
     <CSSTransitionGroup
@@ -43,7 +41,8 @@ class Root extends Component {
     }
 
     render() {
-        const { store, history } = this.props
+        const { store, history, auth } = this.props
+
 
         return (
             <Provider store={store}>
@@ -65,6 +64,7 @@ class Root extends Component {
 
                             <Transition>
                                 <PrivateRoute
+                                    authenticated={auth}
                                     location={location}
                                     key={location.key}
                                     path="/nodes"
@@ -83,4 +83,19 @@ Root.propTypes = {
     history: PropTypes.object.isRequired,
 }
 
-export default Root;
+const mapStateToProps = (state, ownProps) =>
+{
+
+    var authenticated = true;
+    if (state.entities && state.entities.user && state.entities.user.accessToken) {
+        authenticated = true;
+    } else {
+        authenticated = false;
+    }
+
+    return {
+        auth: authenticated
+    }
+}
+
+export default connect(mapStateToProps)(Root);

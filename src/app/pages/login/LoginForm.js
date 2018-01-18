@@ -13,7 +13,7 @@ const LoginForm = props => {
 
             <div className="panel-body">
                 {error && <strong>{error}</strong>}
-                <form role="form" onSubmit={handleSubmit(onValidate)}>
+                <form onSubmit={handleSubmit(onValidate)}>
                     <fieldset>
                         <div className="form-group">
                             <Field component="input" className="form-control" placeholder="E-mail" name="email" type="email" autoFocus/>
@@ -41,4 +41,4 @@ const LoginForm = props => {
 
 export default reduxForm({
     form: 'login',
-}, {}, {})(LoginForm);
+})(LoginForm);

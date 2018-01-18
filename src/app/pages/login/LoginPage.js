@@ -6,34 +6,52 @@ import { Row, Col, Grid, Button, Nav, NavItem, ButtonToolbar } from 'react-boots
 
 import { SubmissionError } from 'redux-form';
 
-import { authenticateUser } from './LoginActions'
-
-
+import { authenticate, obtainToken } from './LoginActions'
 
 class LoginPage extends Component {
 
-    onValidate (form, dispatch) {
-        // Attempt to authenticate
-        return dispatch(authenticateUser(form.email, form.password)).then(result => {
+    constructor (props) {
+        console.error(props);
+        super(props);
+        //this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleValidate = this.handleValidate.bind(this);
+    }
 
-            if (result.type == "TOKEN_SUCCESS"){
-                resolve();
+    handleValidate (form, dispatch) {
+        console.error("Handle validate");
+
+        // Attempt to authenticate
+        return dispatch(authenticate(form.email, form.password)).then(result => {
+
+            if (result.type == "AUTH_SUCCESS"){
+
+                return this.props.obtainToken().then(result => {
+                    if (result.type == "TOKEN_SUCCESS"){
+                        // We should redirect now
+                        this.props.history.push("/nodes");
+                    } else {
+                        throw new SubmissionError({
+                            email: 'User or password is incorrect',
+                            _error: 'Login failed!',
+                        });
+                    }
+                });
+
             } else {
                 throw new SubmissionError({
                     email: 'User or password is incorrect',
                     _error: 'Login failed!',
                 });
             }
+
         });
+
+        return false;
     }
 
-    constructor (props) {
-        super(props);
-        this.onSubmit = this.onSubmit.bind(this);
-    }
+    async showResults (values) {
+        console.error("Handle Submit");
 
-    async onSubmit (values) {
-        this.props.submitSearch(this.props.formValues.search.values);
     }
 
     componentWillUpdate(nextProps) {
@@ -47,8 +65,8 @@ class LoginPage extends Component {
     render() {
         return (
             <div className="justify-content-md-center">
-                <Col xs={12} smOffset={5} sm={6} mdOffset={0} md={12}>
-                    <LoginForm onSubmit={this.onSubmit} onValidate={this.onValidate} />
+                <Col xs={10} sm={10} xsOffset={1} md={10}>
+                    <LoginForm onSubmit={this.showResults} onValidate={this.handleValidate} />
                 </Col>
             </div>
         );
@@ -58,7 +76,8 @@ class LoginPage extends Component {
 const mapStateToProps = (state, ownProps) => {
 
     return {
+
     }
 }
 
-export default connect(mapStateToProps, { authenticateUser }) (PageComponent(LoginPage))
+export default connect(mapStateToProps, { authenticate, obtainToken }) (PageComponent(LoginPage))

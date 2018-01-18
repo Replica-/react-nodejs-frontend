@@ -7,7 +7,6 @@ class SplashPage extends Component {
 
     constructor (props) {
         super(props);
-        console.error(props);
     }
 
     componentWillUpdate(nextProps) {
@@ -20,12 +19,12 @@ class SplashPage extends Component {
 
     render() {
         return (
-            <Grid>
+            <div>
                 <Row>
-                    <Col xs={12} sm={6}><Button bsStyle="success">secondary</Button>{' '}</Col>
-                    <Col xs={12} sm={6}><Button bsStyle="primary">primary</Button></Col>
+                    <Col xs={6} sm={6}><Button bsStyle="success">secondary</Button>{' '}</Col>
+                    <Col xs={6} sm={6}><Button bsStyle="primary">primary</Button></Col>
                 </Row>
-            </Grid>
+            </div>
         );
     }
 }

@@ -14,32 +14,32 @@ class App extends Component {
         super(props);
     }
 
-    componentDidMount() {
-
-    }
-
-    componentDidUpdate(){
-
-    }
-
     render() {
         const { children } = this.props
+
+        var layout;
+        if (this.props.auth) {
+            layout = (
+            <Row><Col xs={4}>
+                <SideBar/>
+                </Col>
+                <Col xs={8} sm={7} smOffset={1} md={8} mdOffset={0}>
+                {children}
+                </Col></Row>);
+        } else {
+            layout = (<Row><Col xs={12}>
+                {children}
+                </Col></Row>);
+        }
 
         return (
             <Grid>
                 <Row>
-                    <Col md={12}>
+                    <Col xs={12}>
                         <NavBar/>
                     </Col>
                 </Row>
-                <Row>
-                    <Col md={4}>
-                        <SideBar/>
-                    </Col>
-                    <Col md={8}>
-                        {children}
-                    </Col>
-                </Row>
+                {layout}
             </Grid>
        );
     }
@@ -47,8 +47,16 @@ class App extends Component {
 
 function mapStateToProps(state, ownProps) {
 
+    var authenticated = true;
+    if (state.entities && state.entities.user && state.entities.user.accessToken) {
+        authenticated = true;
+    } else {
+        authenticated = false;
+    }
+
     return {
         show: state.config.page?true:false,
+        auth: authenticated,
         showPage: PropTypes.func.isRequired,
         hidePage: PropTypes.func.isRequired,
     }
