@@ -4,6 +4,8 @@ import { PageComponent }  from 'common/Page';
 import LoginForm from './LoginForm'
 import { Row, Col, Grid, Button, Nav, NavItem, ButtonToolbar } from 'react-bootstrap';
 
+import styles from './style.acss';
+
 import { SubmissionError } from 'redux-form';
 
 import { authenticate, obtainToken } from './LoginActions'
@@ -64,8 +66,8 @@ class LoginPage extends Component {
 
     render() {
         return (
-            <div className="justify-content-md-center">
-                <Col xs={10} sm={10} xsOffset={1} md={10}>
+            <div className={styles.root} >
+                <Col xs={12} sm={12} md={12}>
                     <LoginForm onSubmit={this.showResults} onValidate={this.handleValidate} />
                 </Col>
             </div>

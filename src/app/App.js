@@ -20,10 +20,10 @@ class App extends Component {
         var layout;
         if (this.props.auth) {
             layout = (
-            <Row><Col xs={4}>
+            <Row><Col xs={12} sm={4}>
                 <SideBar/>
                 </Col>
-                <Col xs={8} sm={7} smOffset={1} md={8} mdOffset={0}>
+                <Col xs={12} sm={8}>
                 {children}
                 </Col></Row>);
         } else {
