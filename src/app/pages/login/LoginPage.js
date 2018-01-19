@@ -8,12 +8,12 @@ import styles from './style.acss';
 
 import { SubmissionError } from 'redux-form';
 
-import { authenticate, obtainToken } from './LoginActions'
+import { authenticate, fetchToken } from './LoginActions'
 
 class LoginPage extends Component {
 
     constructor (props) {
-        console.error(props);
+
         super(props);
         //this.handleSubmit = this.handleSubmit.bind(this);
         this.handleValidate = this.handleValidate.bind(this);
@@ -27,7 +27,7 @@ class LoginPage extends Component {
 
             if (result.type == "AUTH_SUCCESS"){
 
-                return this.props.obtainToken().then(result => {
+                return this.props.fetchToken().then(result => {
                     if (result.type == "TOKEN_SUCCESS"){
                         // We should redirect now
                         this.props.history.push("/nodes");
@@ -52,7 +52,6 @@ class LoginPage extends Component {
     }
 
     async showResults (values) {
-        console.error("Handle Submit");
 
     }
 
@@ -82,4 +81,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, { authenticate, obtainToken }) (PageComponent(LoginPage))
+export default connect(mapStateToProps, { authenticate, fetchToken }) (PageComponent(LoginPage))

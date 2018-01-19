@@ -75,15 +75,6 @@ function callApi(endpoint, schema, method, body, store, parameter, form, fetchTo
                 return Promise.resolve(json);
             }
 
-            if (schema == Schemas.USER) {
-                const camelizedJson = camelizeKeys(json.data)
-
-                return Object.assign({},{entities: { user: camelizedJson}}
-                    ,
-                    { nextPageUrl, parameter }
-                )
-            }
-
             // Store user configguation
             if (fetchToken) {
                 window.localStorage.setItem("token", json.data);
@@ -93,10 +84,17 @@ function callApi(endpoint, schema, method, body, store, parameter, form, fetchTo
             const camelizedJson = camelizeKeys(json.data)
             const nextPageUrl = getNextPageUrl(response)
 
+            if (schema._idAttribute == -1) {
+                const camelizedJson = camelizeKeys(json.data)
+                return Object.assign({},{entities: { user: camelizedJson}},
+                    { nextPageUrl, parameter });
+            }
+
             return Object.assign({},
                 normalize(camelizedJson, schema),
                 { nextPageUrl, parameter }
-            )
+            );
+
         })
 
 }
@@ -107,27 +105,20 @@ function callApi(endpoint, schema, method, body, store, parameter, form, fetchTo
 // consumption by reducers, because we can easily build a normalized tree
 // and keep it updated as we fetch more data.
 
-// Read more about Normalizr: https://github.com/gaearon/normalizr
-const categorySchema = new Schema('category', {
-    idAttribute: 'id'
-})
-
-const systemSchema = new Schema('system', {
-    idAttribute: 'id'
-})
-
+const studentSchema = new Schema('student');
+const studentReferenceSchema = new Schema('student', {
+    idAttribute: 'userId'
+});
 
 const userSchema = new Schema('user', {
-    idAttribute: 'type'
+    idAttribute: -1
 })
 
-// Schemas for Github API responses.
 export const Schemas = {
     NONE: 0,
-    CATEGORY: categorySchema,
-    CATEGORY_ARRAY: arrayOf(categorySchema),
-    SYSTEM: systemSchema,
-    SYSTEM_ARRAY: arrayOf(systemSchema),
+    STUDENT: studentSchema,
+    STUDENT_ARRAY: arrayOf(studentSchema),
+    STUDENT_REFERENCE_ARRAY: arrayOf(studentReferenceSchema),
     USER: userSchema
 }
 
@@ -183,7 +174,7 @@ export default store => next => action => {
 
                 }
 
-                // Remove their token and push them back to the authlocked page
+                // Remove their token, possibly retrieve a new one if auth code is still valid
                 if ((error.status == 400) || (error.status == 401) || (error.message == "Failed to fetch") || (error.status == 500)) {
 
 
@@ -197,6 +188,7 @@ export default store => next => action => {
                 status: error.status,
                 error: error.title || error.detail || error.message,
                 message: error.detail || error.message || error.title
-            })) }
+            }))
+        }
     )
 }

@@ -20,16 +20,23 @@ class App extends Component {
         var layout;
         if (this.props.auth) {
             layout = (
-            <Row><Col xs={12} sm={4}>
-                <SideBar/>
-                </Col>
-                <Col xs={12} sm={8}>
-                {children}
-                </Col></Row>);
+                <Row>
+                    <Col xs={12} sm={4}>
+                        <SideBar/>
+                    </Col>
+                    <Col xs={12} sm={8}>
+                        {children}
+                    </Col>
+                </Row>);
         } else {
-            layout = (<Row><Col xs={12}>
-                {children}
-                </Col></Row>);
+            layout = (
+                <Row>
+                    <Col xs={12}>
+                        <div style={{paddingLeft: "30px", paddingRight: "30px"}}>
+                            {children}
+                        </div>
+                    </Col>
+                </Row>);
         }
 
         return (

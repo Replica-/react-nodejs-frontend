@@ -45,12 +45,12 @@ export function authenticate(login, password) {
 
 // Fetches a single user from Github API.
 // Relies on the custom API middleware defined in ../middleware/api.js.
-export function obtainToken() {
+export function fetchToken() {
 
     return (dispatch, getState) => {
         // Check if authorization code exists
         console.error(getState().entities.user.authorizationCode);
-        return dispatch(obtainTokenStep(getState().entities.user.authorizationCode));
+        return dispatch(fetchTokenStep(getState().entities.user.authorizationCode));
     }
 /*
     const authorisationCode = window.auth_code;
@@ -68,7 +68,7 @@ export function obtainToken() {
     */
 }
 
-export function obtainTokenStep(authcode) {
+export function fetchTokenStep(authcode) {
     return {
         [CALL_API]: {
             types: [ TOKEN_REQUEST, TOKEN_SUCCESS, TOKEN_FAILURE ],

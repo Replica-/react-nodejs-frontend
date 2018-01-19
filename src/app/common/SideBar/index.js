@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { Nav, NavItem, Button, ButtonToolbar } from 'react-bootstrap';
+import styles from './style.acss';
 
 export default class SideBar extends Component {
     render() {
         return (
-
-            <div className="navbar-default sidebar" style={{marginTop:"-2px"}} role="navigation">
-            <div className="sidebar-nav navbar-collapse">
+            <div className={styles.container}>
+            <div className="navbar-default sidebar"  role="navigation">
+            <div className="sidebar-nav">
             <ul className="nav" id="side-menu">
 
             <li className="sidebar-search">
@@ -29,9 +30,8 @@ export default class SideBar extends Component {
                 </li>
              </ul>
 
-        </div>
-      </div>
-
-    );
+            </div>
+            </div>
+            </div>    );
     }
 }

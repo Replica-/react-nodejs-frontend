@@ -15,12 +15,9 @@ var jquery = require('jquery');
 window.jQuery = jquery;
 window.$ = jquery;
 
-require('./assets/bootstrap/bootstrap.min.css');
-
+require('./assets/bootstrap/bootstrap.css');
 require('./assets/metisMenu.css');
-require('./assets/metisMenu.js');
 require('./assets/bootstrap-theme/css/sb-admin-2.css');
-require('./assets/bootstrap-theme/js/sb-admin-2.js');
 
 window.react = {};
 
