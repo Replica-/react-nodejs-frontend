@@ -18,7 +18,8 @@ class App extends Component {
         const { children } = this.props
 
         var layout;
-        if (this.props.auth) {
+
+        if ((this.props.auth) && (!1)) {
             layout = (
                 <Row>
                     <Col xs={12} sm={4}>
@@ -32,7 +33,7 @@ class App extends Component {
             layout = (
                 <Row>
                     <Col xs={12}>
-                        <div style={{paddingLeft: "30px", paddingRight: "30px"}}>
+                        <div>
                             {children}
                         </div>
                     </Col>

@@ -16,6 +16,7 @@ window.jQuery = jquery;
 window.$ = jquery;
 
 require('./assets/bootstrap/bootstrap.css');
+//require('./assets/bootstrap/bootstrap.js');
 require('./assets/metisMenu.css');
 require('./assets/bootstrap-theme/css/sb-admin-2.css');
 
