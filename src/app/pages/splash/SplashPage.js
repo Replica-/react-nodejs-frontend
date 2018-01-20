@@ -104,7 +104,7 @@ class SplashPage extends Component {
     }
 
     handleClick() {
-        console.log("tesT");
+
     }
 
     render() {

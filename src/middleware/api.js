@@ -5,7 +5,7 @@ import { safe } from 'common/Functions';
 
 import config from 'config';
 
-// Extracts the next page URL from Github API response.
+// Next page for API that limit responses per page
 function getNextPageUrl(response) {
     const link = response.headers.get('link')
     if (!link) {
@@ -53,7 +53,7 @@ function callApi(endpoint, schema, method, body, store, parameter, form) {
             method:method,
             headers: {
                 'Content-Type': 'application/json',
-                'X-Access-Token' : token,
+                'X-Access-Token' : token
             },
             body:body
         };
