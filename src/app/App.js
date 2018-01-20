@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { showPage, hidePage } from './common/CommonActions'
+import { showLoading, hideLoading } from './common/CommonActions'
 import { Row, Col, Grid, Button } from 'react-bootstrap';
 import TopBar from 'common/TopBar'
 import SideBar from 'common/SideBar'
@@ -15,9 +15,9 @@ class App extends Component {
     }
 
     render() {
-        const { children } = this.props
+        const { children, show } = this.props
 
-        var layout;
+        let layout;
 
         if ((this.props.auth) && (!1)) {
             layout = (
@@ -41,14 +41,15 @@ class App extends Component {
         }
 
         return (
-            <Grid>
+            <div>
+                {show?<div className="loadingSpinner"><span className="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>Loading...</div>:null}
                 <Row>
                     <Col xs={12}>
                         <NavBar/>
                     </Col>
                 </Row>
                 {layout}
-            </Grid>
+            </div>
        );
     }
 }
@@ -63,7 +64,7 @@ function mapStateToProps(state, ownProps) {
     }
 
     return {
-        show: state.config.page?true:false,
+        show: state.config.show_loading?true:false,
         auth: authenticated,
         showPage: PropTypes.func.isRequired,
         hidePage: PropTypes.func.isRequired,
@@ -71,5 +72,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-    showPage, hidePage,
+    showLoading, hideLoading,
 })(App)

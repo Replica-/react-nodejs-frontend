@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import { PageComponent }  from 'common/Page';
 import LoginForm from './LoginForm'
 import { Row, Col, Grid, Button, Nav, NavItem, ButtonToolbar } from 'react-bootstrap';
-
+import PropTypes from 'prop-types';
 import styles from './style.acss';
 
 import { SubmissionError } from 'redux-form';
 
 import { authenticate, fetchToken } from './LoginActions'
+import { showLoading, hideLoading } from 'common/CommonActions'
+
 
 class LoginPage extends Component {
 
@@ -20,7 +22,7 @@ class LoginPage extends Component {
     }
 
     handleValidate (form, dispatch) {
-        console.error("Handle validate");
+        dispatch(showLoading());
 
         // Attempt to authenticate
         return dispatch(authenticate(form.email, form.password)).then(result => {
@@ -37,7 +39,7 @@ class LoginPage extends Component {
                             _error: 'Login failed!',
                         });
                     }
-                });
+                }).catch(error => { console.error(error); this.props.hideLoading(); throw error;});
 
             } else {
                 throw new SubmissionError({
@@ -45,8 +47,7 @@ class LoginPage extends Component {
                     _error: 'Login failed!',
                 });
             }
-
-        });
+        }).catch(error => { console.error(error); this.props.hideLoading(); throw error;});
 
         return false;
     }
@@ -77,8 +78,9 @@ class LoginPage extends Component {
 const mapStateToProps = (state, ownProps) => {
 
     return {
-
+        showLoading: PropTypes.func.isRequired,
+        hideLoading: PropTypes.func.isRequired
     }
 }
 
-export default connect(mapStateToProps, { authenticate, fetchToken }) (PageComponent(LoginPage))
+export default connect(mapStateToProps, { showLoading, hideLoading, authenticate, fetchToken }) (PageComponent(LoginPage))

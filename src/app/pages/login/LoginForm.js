@@ -12,7 +12,7 @@ const LoginForm = props => {
             </div>
 
             <div className="panel-body">
-                {error && <strong>{error}</strong>}
+                {!submitting && error && <div className="alert alert-danger">{error}</div>}
                 <form onSubmit={handleSubmit(onValidate)}>
                     <fieldset>
                         <div className="form-group">
@@ -31,9 +31,9 @@ const LoginForm = props => {
 
                         <button type="submit" className="btn btn-lg btn-success btn-block" disabled={pristine || submitting}>Login</button>
 
+
                     </fieldset>
                 </form>
-
             </div>
         </div>
     );

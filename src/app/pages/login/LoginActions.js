@@ -52,20 +52,6 @@ export function fetchToken() {
         console.error(getState().entities.user.authorizationCode);
         return dispatch(fetchTokenStep(getState().entities.user.authorizationCode));
     }
-/*
-    const authorisationCode = window.auth_code;
-
-    dispatch({
-        [CALL_API]: {
-            types: [ TOKEN_REQUEST, TOKEN_SUCCESS, TOKEN_FAILURE ],
-            endpoint: '/accesstoken',
-            method: 'POST',
-            schema: Schemas.NONE,
-            form: {authorization_code: authorisationCode},
-            fetchToken: true
-        }
-    }
-    */
 }
 
 export function fetchTokenStep(authcode) {
@@ -75,8 +61,7 @@ export function fetchTokenStep(authcode) {
             endpoint: '/accesstoken',
             method: 'POST',
             schema: Schemas.USER,
-            form: {authorization_code: authcode},
-            fetchToken: true
+            form: {authorization_code: authcode}
         }
     }
 }

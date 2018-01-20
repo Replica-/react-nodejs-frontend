@@ -1,15 +1,15 @@
-export const SHOW_PAGE = 'SHOW_PAGE';
-export const HIDE_PAGE = 'HIDE_PAGE'
+export const SHOW_LOADING = 'SHOW_LOADING';
+export const HIDE_LOADING = 'HIDE_LOADING'
 
-export function showPage(pageName) {
+export function showLoading() {
     return (dispatch, getState) => {
-        return dispatch({type:SHOW_PAGE, response: { config: { page : pageName }}});
+        return dispatch({type:SHOW_LOADING, response: { config: { show_loading : true }}});
     }
 }
 
-export function hidePage(pageName) {
+export function hideLoading() {
     return (dispatch, getState) => {
-        return dispatch({type:HIDE_PAGE, mode: "unset", response: { config: { page : null }}});
+        return dispatch({type:HIDE_LOADING, response: { config: { show_loading : false }}});
     }
 }
 

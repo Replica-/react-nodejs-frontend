@@ -1,6 +1,7 @@
 import { Schema, arrayOf, normalize } from 'normalizr'
 import { camelizeKeys } from 'humps'
 import 'isomorphic-fetch'
+import { safe } from 'common/Functions';
 
 import config from 'config';
 
@@ -22,13 +23,13 @@ export const API_ROOT = config.API_ROOT;
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
-function callApi(endpoint, schema, method, body, store, parameter, form, fetchToken) {
+function callApi(endpoint, schema, method, body, store, parameter, form) {
 
     const fullUrl = ((endpoint.indexOf("http://") != 0 && endpoint.indexOf("https://") != 0)) ? API_ROOT + endpoint : endpoint
 
     var initObject = null;
 
-    const token = window.token;
+    const token = safe(store.getState().entities,[ "user", "accessToken" ], null);
 
     if (form) {
 
@@ -73,12 +74,6 @@ function callApi(endpoint, schema, method, body, store, parameter, form, fetchTo
 
             if (schema == 0){
                 return Promise.resolve(json);
-            }
-
-            // Store user configguation
-            if (fetchToken) {
-                window.localStorage.setItem("token", json.data);
-                window.token = json.data;
             }
 
             const camelizedJson = camelizeKeys(json.data)
@@ -176,7 +171,6 @@ export default store => next => action => {
 
                 // Remove their token, possibly retrieve a new one if auth code is still valid
                 if ((error.status == 400) || (error.status == 401) || (error.message == "Failed to fetch") || (error.status == 500)) {
-
 
                 }
             } else {
