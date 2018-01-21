@@ -1,7 +1,6 @@
 import 'babel-polyfill'
 import React from 'react'
-import ReactDOM, {render} from 'react-dom'
-import { BrowserRouter as Router } from "react-router-dom";
+import {render} from 'react-dom'
 
 import createMemoryHistory from 'history/createMemoryHistory'
 import configureStore from './app/store/configureStore'
@@ -31,7 +30,7 @@ window.react.history = history;
 
 const store = configureStore({}, history);
 
-const renderApp = Component => {
+const renderApp = /*Component*/ () => {
     const Root = require('./app/Root').default;
 
     render(

@@ -1,0 +1,10 @@
+.parent {
+  width: 100%;
+  background: lightgrey;
+  display: inline-block;
+  border: 1px solid;
+}
+
+.parentWrapper {
+    margin: 0px;
+}

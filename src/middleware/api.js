@@ -1,11 +1,28 @@
+/*
+* API Middleware
+* The following code has been liberated from the internet, but heavily modified and extended for more flexible usage
+*/
+
+// Middleware action key
+export const CALL_API = Symbol('Call API')
+
 import { Schema, arrayOf, normalize } from 'normalizr'
 import { camelizeKeys } from 'humps'
 import 'isomorphic-fetch'
-import { safe } from 'common/Functions';
+import { safe, type } from 'common/Functions';
 
 import config from 'config';
+export const API_ROOT = config.API_ROOT;
 
-// Next page for API that limit responses per page
+/**
+ * GetNextPageUrl
+ *
+ * This function extracts "NextPageUrl" that is commonly used by API's such as Facebook or github to handle paged data
+ *
+ * @param {response} HTTP Response
+ *
+ * @return Next page url
+ */
 function getNextPageUrl(response) {
     const link = response.headers.get('link')
     if (!link) {
@@ -19,24 +36,41 @@ function getNextPageUrl(response) {
 
     return nextLink.split(';')[0].slice(1, -1)
 }
-export const API_ROOT = config.API_ROOT;
 
-// Fetches an API response and normalizes the result JSON according to schema.
-// This makes every API response have the same shape, regardless of how nested it was.
+/**
+ * Fetches the API response and normalises the resulting JSON according to a defined Schema - The response is then stored back into the state tree
+ * @param {endpoint} URL End point
+ * @param {schema} The responses structure so that the returning structure can be stored into the state tree in a consistent format.
+ * @param {method} Request Method
+ * @param {body} Request Raw Body (If form is defined, body is ignored)
+ * @param {store} Redux Store
+ * @param {parameter} Unused.
+ * @param {form} Object is converted into a form friendly body and content type is also changed.
+ *
+ * @emits {Error} If submission form promise fails at any point it will throw an error, if the api returns an error submission error is thrown.
+ *
+ * @return promise
+ */
 function callApi(endpoint, schema, method, body, store, parameter, form) {
 
     const fullUrl = ((endpoint.indexOf("http://") != 0 && endpoint.indexOf("https://") != 0)) ? API_ROOT + endpoint : endpoint
 
-    var initObject = null;
+    let initObject = null;
 
-    const token = safe(store.getState().entities,[ "user", "accessToken" ], null);
+    // If we have the token, we need to store it in the headers on every request
+    const token = safe(store.getState().user,[ "accessToken" ], null);
 
+    type(form, "object", true);
+    type(body, "string", true);
+    type(method, "string");
+    type(schema, ["object", "number"]);
+
+    // If form is defined, convert the form field into
     if (form) {
-
-        var form_data = "";
+        let formData = "";
 
         for ( var key in form ) {
-            form_data = key + "=" + encodeURIComponent(form[key]) + "&" + form_data;
+            formData = key + "=" + encodeURIComponent(form[key]) + "&" + formData;
         }
 
         initObject = {
@@ -45,10 +79,9 @@ function callApi(endpoint, schema, method, body, store, parameter, form) {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                 'X-Access-Token' :token
             },
-            body:form_data
+            body:formData
         };
     } else {
-
         initObject = {
             method:method,
             headers: {
@@ -79,34 +112,35 @@ function callApi(endpoint, schema, method, body, store, parameter, form) {
             const camelizedJson = camelizeKeys(json.data)
             const nextPageUrl = getNextPageUrl(response)
 
-            if (schema._idAttribute == -1) {
-                const camelizedJson = camelizeKeys(json.data)
-                return Object.assign({},{entities: { user: camelizedJson}},
+            // If the schema doesn't assign entity, just store into state tree as is.
+            if (schema._assignEntity === false) {
+                const camelizedJson = camelizeKeys(json.data);
+
+                let mergeObject = {};
+                mergeObject[schema._key] = camelizedJson;
+
+                return Object.assign({}, mergeObject,
                     { nextPageUrl, parameter });
+            } else {
+                return Object.assign({},
+                    normalize(camelizedJson, schema),
+                    { nextPageUrl, parameter }
+                );
             }
-
-            return Object.assign({},
-                normalize(camelizedJson, schema),
-                { nextPageUrl, parameter }
-            );
-
         })
-
 }
 
-// We use this Normalizr schemas to transform API responses from a nested form
-// to a flat form where repos and users are placed in `entities`, and nested
-// JSON objects are replaced with their IDs. This is very convenient for
-// consumption by reducers, because we can easily build a normalized tree
-// and keep it updated as we fetch more data.
-
+/*
+* Normlizr (Schemas) is used to transform API responses to a flat form so that response can easily be merged into the state tree
+* These schemas will at some stage be moved into the actions. API middleware should not be defining the schemas.
+*/
 const studentSchema = new Schema('student');
 const studentReferenceSchema = new Schema('student', {
     idAttribute: 'userId'
 });
 
 const userSchema = new Schema('user', {
-    idAttribute: -1
+    assignEntity: false
 })
 
 export const Schemas = {
@@ -117,13 +151,20 @@ export const Schemas = {
     USER: userSchema
 }
 
-// Action key that carries API call info interpreted by this Redux middleware.
-export const CALL_API = Symbol('Call API')
-export const DO_NOT_CALL_API = Symbol('Do Not Call API')
-// A Redux middleware that interprets actions with CALL_API info specified.
-// Performs the call and promises when such actions are dispatched.
+/**
+ * Middleware driver - Checks the action to ensure that it is a CALL_API action and that it is sanitised
+ * @param {store} URL End point
+ * @param {next} The responses structure so that the returning structure can be stored into the state tree in a consistent format.
+ * @param {action} Request Method
+ *
+ * @emits {Error} Throws multiple errors
+ *
+ * @return next action Success or failure
+ */
 export default store => next => action => {
     const callAPI = action[CALL_API]
+
+    // If the action doesn't contain the "CALL_API" key - just skip to the next action
     if (typeof callAPI === 'undefined') {
         return next(action)
     }
@@ -132,6 +173,7 @@ export default store => next => action => {
     let { method, body} = callAPI
     const { schema, types, parameter, form } = callAPI
 
+    // Retrieve the state from the endpoint - this is most likely never the case
     if (typeof endpoint === 'function') {
         endpoint = endpoint(store.getState())
     }
@@ -159,11 +201,13 @@ export default store => next => action => {
     next(actionWith({ type: requestType }))
 
      return callApi(endpoint, schema, method, body, store, parameter, form).then(
+         // Success response
          response => next(actionWith({
             response,
             type: successType
         })),
         error => {
+            // Error response
             if (typeof(error) != 'undefined') {
                 if (error.status == 403) {
 
@@ -174,9 +218,11 @@ export default store => next => action => {
 
                 }
             } else {
+                // All other weird errors
                 error = {status: 500};
             }
 
+            // Store as much info about error message as possible
             return next(actionWith({
                 type: failureType,
                 status: error.status,

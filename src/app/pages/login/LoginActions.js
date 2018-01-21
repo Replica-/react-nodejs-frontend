@@ -1,4 +1,5 @@
 import { CALL_API, Schemas } from '../../../middleware/api';
+import { type } from 'common/Functions';
 
 export const TOKEN_REQUEST = 'TOKEN_REQUEST'
 export const TOKEN_SUCCESS = 'TOKEN_SUCCESS'
@@ -7,29 +8,23 @@ export const AUTH_REQUEST = 'AUTH_REQUEST'
 export const AUTH_SUCCESS = 'AUTH_SUCCESS'
 export const AUTH_FAILURE = 'AUTH_FAILURE'
 
-// Fetch if not cached
-export function clearTokens() {
-    return (dispatch) => {
-        dispatch(setLocalStorage('WCToken', '') );
-        dispatch(setLocalStorage('WCTrustedToken', '') );
-
-        dispatch({type:CLEAR_TOKENS, response: {localStorage: {WCToken: '', WCTrustedToken: ''}}});
-    }
-}
-
-// Fetch if not cached
-export function setTokens(trusted, trustedToken) {
-    return (dispatch) => {
-        dispatch(setLocalStorage('WCToken', trusted) );
-        dispatch(setLocalStorage('WCTrustedToken', trustedToken) );
-
-        return dispatch({type:SET_TOKENS, response: {localStorage: {WCToken: trusted, WCTrustedToken: trustedToken}}});
-    }
-}
-
-// Fetches a single user from Github API.
-// Relies on the custom API middleware defined in ../middleware/api.js.
+/**
+ * Authenticate action - references API Middleware
+ *
+ * Simple request to authetnicate against API using login and password
+ *
+ * @param {login} Form to validate
+ * @param {password} Dispatch action for redux
+ *
+ * @emits {error} Type checking on fields
+ *
+ * @return middleware object
+ */
 export function authenticate(login, password) {
+
+    type(login, ["string"]);
+    type(password, ["string"]);
+
     return {
         [CALL_API]: {
             types: [ AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILURE ],
@@ -38,23 +33,30 @@ export function authenticate(login, password) {
             body: '',
             schema: Schemas.USER,
             form: {username: login, password: password},
-
         }
     }
 }
 
-// Fetches a single user from Github API.
-// Relies on the custom API middleware defined in ../middleware/api.js.
+/**
+ * Fetch Token && Fetch token step- references API Middleware
+ *
+ * Request token from API to be carried out by API middle ware. This function is split up into two functions for simplicities sake
+ *
+ * @param {authcode} Authorisation code stored from user tree
+ *
+ * @return middleware object
+ */
 export function fetchToken() {
 
     return (dispatch, getState) => {
         // Check if authorization code exists
-        console.error(getState().entities.user.authorizationCode);
-        return dispatch(fetchTokenStep(getState().entities.user.authorizationCode));
+        return dispatch(fetchTokenStep(getState().user.authorizationCode));
     }
 }
-
 export function fetchTokenStep(authcode) {
+
+    type(authcode, ["string"]);
+
     return {
         [CALL_API]: {
             types: [ TOKEN_REQUEST, TOKEN_SUCCESS, TOKEN_FAILURE ],

@@ -1,23 +1,33 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import { PageComponent }  from 'common/Page';
 import styles from './style.acss';
 import { connect } from 'react-redux';
+import { type } from 'common/Functions';
 
 export class Table extends Component {
     constructor (props) {
         super(props);
         this.renderItem = this.renderItem.bind(this);
         this.renderHeader = this.renderHeader.bind(this);
-
     }
 
-    // Generic Item Renderer - Can be overriden
+    /**
+     * Generic Header Renderer
+     * @param {colName} item
+     * @param {context} click
+     * @param {data} className
+     * @param {className} className
+     *
+     * @emits {Error} Type checking
+     *
+     * @return html item
+     */
     renderItem(colName, context, data, className = "") {
 
-        if (typeof(data) == "object") {
-            throw new Error("Item renderer received object, expecting a primative type");
-        }
+        type(colName, ["string"]);
+        type(context, ["object"]);
+        type(data, ["string", "number"]);
+        type(className, ["string"]);
 
         return (
             <div className={className}>
@@ -26,12 +36,29 @@ export class Table extends Component {
         );
     }
 
+    /**
+    * Handle click on header for sorting
+    */
     handleClick() {
 
     }
 
-    // Generic Header Renderer
+    /**
+     * Generic Header Renderer
+     * @param {object} item
+     * @param {function} click
+     * @param {string} className
+     *
+     * @return html element
+     */
     renderHeader(item, click, className = "left") {
+
+        type(item, ["object"]);
+        type(click, ["function"]);
+        type(className, ["string"]);
+
+        type(item.title, ["string", "number"], true);
+
         let i = item.title;
         return (
             <div className={styles.padding + " " + className}>{i}</div>
@@ -39,7 +66,6 @@ export class Table extends Component {
     }
 
     render() {
-
         const { items, data, columns } = this.props;
 
         let groupBy = "";
@@ -51,12 +77,16 @@ export class Table extends Component {
             }
         }
 
+        if ((!items) || (!data)) {
+            return null;
+        }
+
         var flattenArray = preprocessTable(items, data, groupBy);
 
         return (
             <div className="table-responsive">
                 <table className={"table table-bordered"}>
-                    <thead>
+                    <thead><tr>
                     {this.props.columns.map(function(column, c){
 
                         let className = "";
@@ -65,8 +95,9 @@ export class Table extends Component {
                             className = column["headerClass"];
                         }
 
-                        return (<th key={c}>{this.renderHeader(column, this.props.handleClick, className)}</th>);
+                        return (<th className={styles.th} key={c}>{this.renderHeader(column, this.props.handleClick, className)}</th>);
                     }.bind(this))}
+                    </tr>
                     </thead>
                     <tbody>
 
@@ -116,22 +147,28 @@ export class Table extends Component {
         )
     }
 }
-Table.propTypes = {
-    handleClick: PropTypes.func.isRequired,
-    data: PropTypes.object.isRequired,
-    columns: PropTypes.array.isRequired,
-    items: PropTypes.array.isRequired,
-}
 
-Table.defaultProps = {
+/*
+* Preprocess Table
+*
+* This function resolves items x data into single array, if a group by is not empty, the groupby object is flattened
+* into the array adding additional rows.
+*
+* @param {array} items - The indexes to be rendered
+* @param {object} data - The json data to be rendered.
+* @param string groupby - The first level "object" to group by. Default is false.
+*
+* @return {array} A flattened down array
+*/
+const preprocessTable = (items, data, groupBy = null) => {
 
-}
+    type(items, "array");
+    type(data, "object");
+    type(groupBy, "string", true);
 
-
-const preprocessTable = (items, data, groupBy) => {
     var flattenArray = [];
 
-    // If we are not grouping by another dataset, copy array as is.
+    // If we are not grouping by another dataset, simply resolve array
     if (groupBy == false) {
         for (var i = 0; i < items.length; i++) {
             const context = data[items[i]];
@@ -142,10 +179,15 @@ const preprocessTable = (items, data, groupBy) => {
         // Preprocess the table in order to get it in the correct format for rendering
         for (var i = 0; i < items.length; i++) {
             const context = data[items[i]];
+            // Resolve group by in context
             if (context[groupBy]) {
+
+                // Copy the group by object and create a new row for each copy
                 for (var j = 0; j < context[groupBy].length; j++) {
                     let object2 = Object.assign({}, context);
                     object2 = Object.assign(object2, context[groupBy][j]);
+
+                    // Dont render flag is specifically for rows that have repeat data.
                     if (j != 0) {
                         object2.dontRender = true;
                     }
@@ -158,11 +200,18 @@ const preprocessTable = (items, data, groupBy) => {
     return flattenArray;
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (/*state, ownProps*/) => {
 
     return {
 
     }
+}
+
+Table.propTypes = {
+    handleClick: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired,
+    columns: PropTypes.array.isRequired,
+    items: PropTypes.array.isRequired
 }
 
 export default connect(mapStateToProps, { }) (Table)

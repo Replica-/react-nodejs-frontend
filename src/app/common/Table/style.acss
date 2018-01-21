@@ -14,3 +14,8 @@
 .padding {
     padding: 8px 8px 8px 8px;
 }
+
+.th {
+    vertical-align: top !important;
+    background: #eeeeee;
+}

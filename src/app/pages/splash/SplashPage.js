@@ -1,9 +1,10 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
+import { ProgressBar } from 'common/ProgressBar';
 import { PageComponent }  from 'common/Page';
-import { Row, Col, Grid, Button, Nav, NavItem, ButtonToolbar } from 'react-bootstrap';
-import { safe } from 'common/Functions';
+import { safe/*, type*/ } from 'common/Functions';
 import { Table } from 'common/Table';
+import { Icon } from 'common/Icon';
 import PropTypes from 'prop-types';
 import { showLoading, hideLoading } from 'common/CommonActions'
 import { fetchStudents, fetchQuestPaths } from './SplashActions'
@@ -16,58 +17,71 @@ class SplashPage extends Component {
         this.renderQuest = this.renderQuest.bind(this);
     }
 
-    componentWillUpdate(nextProps) {
-
-    }
-
     componentDidMount() {
 
         this.props.showLoading();
-
         this.props.fetchStudents().then(result => {
             if (result.type == "STUDENT_SUCCESS") {
-                this.props.fetchQuestPaths().then(result => {
+                this.props.fetchQuestPaths().then(() => {
                    // The interface should render straight away
                     this.props.hideLoading();
                 }).catch(error => { console.error(error); this.props.hideLoading();});
+            } else {
+                this.props.hideLoading();
             }
         }).catch(error => { console.error(error); this.props.hideLoading();});
     }
 
-    renderSubmit(item, context, value) {
+    /**
+     * Custom Item Renderer - Submit Column
+     * @param item
+     * @param context
+     *
+     * @return html item
+     */
+    renderSubmit(item, context) {
+        return (<Icon type="boolean" value={context.mark.submitted}/>);
+    }
 
-        let mark = context.mark.submitted;
-        if (mark) {
-            mark = (<p  className="glyphicon glyphicon-ok-circle"></p>);
-        } else {
-            mark = (<p  className="glyphicon glyphicon-remove-circle"> </p>);
+    /**
+     * Custom Item Renderer - Active Column
+     * @param item
+     * @param context
+     *
+     * @return html item
+     */
+    renderActive(item, context) {
+
+        return (<Icon type="boolean" value={context.quest.isActive}/>);
+    }
+
+    /**
+     * Custom Item Renderer - Completion
+     * @param item
+     * @param context
+     *
+     * @return html item
+     */
+    renderCompletion(item, context) {
+
+        let mark = context.mark.completion;
+        if (!mark) {
+            mark = 0;
         }
 
-        return (<div className="center">
-                {mark}
-            </div>);
+       return  (
+           <ProgressBar mark={mark}/>
+        );
     }
 
-    renderCompletion(item, context, value) {
-
-                let mark = context.mark.completion;
-                if (!mark) {
-                    mark = 0;
-                }
-
-               return  (<div className='progress-bar'
-                role='progressbar'
-                aria-valuenow={mark}
-                aria-valuemin='0'
-                aria-valuemax='100'
-                style={{width:  mark + '%'}}>
-                    <p className=''>{mark}%</p>
-                </div>
-                );
-
-    }
-
-    renderMark(item, context, value) {
+    /**
+     * Custom Item Renderer - Mark Column
+     * @param item
+     * @param context
+     *
+     * @return html item
+     */
+    renderMark(item, context) {
 
         let mark = context.mark.mark;
         if (!mark) {
@@ -78,7 +92,7 @@ class SplashPage extends Component {
 
         if (mark > 80) {
             markColour = "green";
-        } else if (mark > 60) {
+        } else if (mark > 65) {
             markColour = "gold";
         } else if (mark > 40) {
             markColour = "orange";
@@ -90,31 +104,42 @@ class SplashPage extends Component {
 
         return (
             <div className="center">
-                    <p className={markColour}>{mark}</p>
+                    <p className={markColour}>{mark}%</p>
             </div>);
     }
 
-    renderQuest(item, context, value) {
-
+    /**
+     * Custom Item Renderer - Quest Column
+     * @param item
+     * @param context
+     *
+     * @return html item
+     */
+    renderQuest(item, context) {
         return (
-            <div className="csr-listview-item">
-                   <p>{context.quest.name}</p>
+            <div>
+               <p>{context.quest.name}</p>
             </div>
         );
     }
 
+    /**
+     * Handle Click - Placeholder for header clicks
+     */
     handleClick() {
 
     }
 
     render() {
 
+        // Future: Expand id to handle more complicated array path definitions. eg. id: quest.submitted
         let columnsSpec = [{id: "id", title: "Student ID", itemClass: "middle", rowSpan: "questPaths"},
                            {id: "fullname",title: "Full Name", itemClass: "middle", rowSpan: "questPaths"},
                            {id: "questPaths",title: "Quest Name", render: this.renderQuest},
-                           { id: "id", title: "Quest Submitted?", headerClass: "center", render: this.renderSubmit},
-                           { id: "id", title: "Quest Completion", headerClass: "center", render: this.renderCompletion},
-                           { id: "id", title: "Quest Mark", headerClass: "center", render: this.renderMark} ];
+                           { id: "id", title: "Quest Submitted?", itemClass: "middle",headerClass: "center", render: this.renderSubmit},
+                           { id: "id", title: "Quest Completion", itemClass: "middle center",headerClass: "center", render: this.renderCompletion},
+                           { id: "id", title: "Quest Mark", itemClass: "middle", headerClass: "center", render: this.renderMark},
+                           { id: "id", title: "Quest Active?", itemClass: "middle", headerClass: "center", render: this.renderActive}];
 
         return (
             <Table columns={columnsSpec} items={this.props.students} data={this.props.studentData} handleClick={this.handleClick}/>
@@ -123,7 +148,7 @@ class SplashPage extends Component {
 
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
 
     let students = safe(state.entities,[ "student" ], {});
 

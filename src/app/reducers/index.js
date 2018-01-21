@@ -1,6 +1,6 @@
 import merge from 'lodash/merge'
 import { combineReducers } from 'redux'
-import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
+import { routerReducer } from 'react-router-redux'
 import { reducer as reduxFormReducer } from 'redux-form';
 
 // Updates an entity cache in response to any action with response.entities.

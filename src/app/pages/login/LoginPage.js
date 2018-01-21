@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { PageComponent }  from 'common/Page';
 import LoginForm from './LoginForm'
-import { Row, Col, Grid, Button, Nav, NavItem, ButtonToolbar } from 'react-bootstrap';
+import {Col} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import styles from './style.acss';
 
@@ -15,12 +15,19 @@ import { showLoading, hideLoading } from 'common/CommonActions'
 class LoginPage extends Component {
 
     constructor (props) {
-
         super(props);
-        //this.handleSubmit = this.handleSubmit.bind(this);
         this.handleValidate = this.handleValidate.bind(this);
     }
 
+    /**
+     * Handle validate from Login Form.
+     * @param {form} Form to validate
+     * @param {dispatch} Dispatch action for redux
+     *
+     * @emits {Error} If submission form promise fails at any point it will throw an error, if the api returns an error submission error is thrown.
+     *
+     * @return promise
+     */
     handleValidate (form, dispatch) {
         dispatch(showLoading());
 
@@ -29,10 +36,11 @@ class LoginPage extends Component {
 
             if (result.type == "AUTH_SUCCESS"){
 
+                // Attempt to fetch the oauth2 token
                 return this.props.fetchToken().then(result => {
                     if (result.type == "TOKEN_SUCCESS"){
                         // We should redirect now
-                        this.props.history.push("/nodes");
+                        this.props.history.push("/splash");
                     } else {
                         throw new SubmissionError({
                             email: 'User or password is incorrect',
@@ -49,19 +57,6 @@ class LoginPage extends Component {
             }
         }).catch(error => { console.error(error); this.props.hideLoading(); throw error;});
 
-        return false;
-    }
-
-    async showResults (values) {
-
-    }
-
-    componentWillUpdate(nextProps) {
-
-    }
-
-    componentDidMount() {
-
     }
 
     render() {
@@ -75,7 +70,7 @@ class LoginPage extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = () => {
 
     return {
         showLoading: PropTypes.func.isRequired,

@@ -1,9 +1,8 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { authenticateUser } from './LoginActions'
 
 const LoginForm = props => {
-    const { error, handleSubmit, pristine, reset, submitting, onValidate } = props;
+    const { error, handleSubmit, pristine, /*reset,*/ submitting, onValidate } = props;
 
     return (
         <div className="login-panel panel panel-default">
@@ -30,7 +29,6 @@ const LoginForm = props => {
                         </div>
 
                         <button type="submit" className="btn btn-lg btn-success btn-block" disabled={pristine || submitting}>Login</button>
-
 
                     </fieldset>
                 </form>

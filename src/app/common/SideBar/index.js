@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
-import { Nav, NavItem, Button, ButtonToolbar } from 'react-bootstrap';
+//import { NavLink } from "react-router-dom";
+//import { Nav, NavItem, Button, ButtonToolbar } from 'react-bootstrap';
 import styles from './style.acss';
 
 export default class SideBar extends Component {

@@ -9,12 +9,10 @@ import App from './App'
 import { Provider } from 'react-redux'
 import { CSSTransitionGroup } from 'react-transition-group'
 
-import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
-import { Route, IndexRoute, Redirect } from 'react-router-dom'
-import { Row, Col, Grid, Button } from 'react-bootstrap';
+import { ConnectedRouter } from 'react-router-redux'
+import { Route, Redirect } from 'react-router-dom'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-
     return (
     <Route {...rest} render={props => (!props.authenticated ? (<Component {...props}/>) :
         (
@@ -25,7 +23,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     )}/>
 )};
 
-const Transition = ({ children, ...rest }) => (
+const Transition = ({ children/*, ...rest*/ }) => (
     <CSSTransitionGroup
     transitionName="fade"
     transitionEnterTimeout={500}
@@ -37,12 +35,10 @@ const Transition = ({ children, ...rest }) => (
 class Root extends Component {
     constructor (props) {
         super(props);
-
     }
 
     render() {
         const { store, history, auth } = this.props
-
 
         return (
             <Provider store={store}>
@@ -67,7 +63,7 @@ class Root extends Component {
                                     authenticated={auth}
                                     location={location}
                                     key={location.key}
-                                    path="/nodes"
+                                    path="/splash"
                                     component={SplashPage}
                                 />
                             </Transition>
@@ -83,9 +79,8 @@ Root.propTypes = {
     history: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = (state, ownProps) =>
+const mapStateToProps = (state/*, ownProps*/) =>
 {
-
     var authenticated = true;
     if (state.entities && state.entities.user && state.entities.user.accessToken) {
         authenticated = true;

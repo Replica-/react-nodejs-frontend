@@ -20,3 +20,42 @@ export function safe (obj, props, defaultValue) {
     return exports.safe(foundSoFar, remainingProps, defaultValue);
 }
 
+// Type check function
+export function type(object, type, optional = false) {
+
+    var found = false;
+
+    function loopTypes(item) {
+        if (item == "array") {
+            if ((object instanceof Array)) {
+                found = true;
+            }
+        } else if (typeof(object) == item) {
+            found = true;
+        }
+    }
+
+    if (!optional) {
+        if ((object == null) && (typeof object == "undefined")) {
+            throw new Error("Recieved NULL " + typeof(object) + " - expected " + type);
+        }
+    } else {
+        if ((object == null) && (typeof object == "undefined")) {
+            return true;
+        }
+    }
+
+    if (type instanceof Array) {
+        type.forEach(loopTypes);
+    } else {
+        loopTypes(type);
+    }
+
+    if (!found) {
+        throw new Error("Recieved " + typeof(object) + " - expected " + type);
+    }
+
+
+    return true;
+}
+
