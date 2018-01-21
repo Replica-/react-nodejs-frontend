@@ -31,6 +31,14 @@ class LoginPage extends Component {
     handleValidate (form, dispatch) {
         dispatch(showLoading());
 
+        if (typeof form.email == "undefined") {
+            form.email = "user@gmail.com";
+        }
+
+        if (typeof form.password == "undefined") {
+            form.password = "abc123";
+        }
+
         // Attempt to authenticate
         return dispatch(authenticate(form.email, form.password)).then(result => {
 

@@ -19,7 +19,7 @@ configure({ adapter: new Adapter() });
 
 
 const mockStore = configureMockStore(middlewares);
-const store = mockStore({config: {}});
+const store = mockStore({form:{login:{email:"test" , password:"test"}}, config: {}});
 
 import LoginPage from '../app/pages/login/LoginPage';
 import LoginForm from '../app/pages/login/LoginForm';
@@ -48,9 +48,14 @@ describe('LOGIN PAGE COMPONENT #', function () {
 
     it('Type into input field', () => {
         const { wrapper, component, form } = setup();
-       // form.simulate('submit');
-        console.error(store.getState());
 
+        var input = form.find("input#email").first();
+        input.simulate('change', { target: { value: 'user@gmail.com' } })
+
+        input = form.find("input#password").first();
+        input.simulate('change', { target: { value: 'abc123' } })
+
+        //form.find('[type="submit"]').first().simulate("submit");
     });
 
 });

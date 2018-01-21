@@ -19,3 +19,7 @@
     vertical-align: top !important;
     background: #eeeeee;
 }
+
+.stripe {
+    background-color: #f9f9f9;
+}

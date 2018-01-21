@@ -20,9 +20,9 @@ class SplashPage extends Component {
     componentDidMount() {
 
         this.props.showLoading();
-        this.props.fetchStudents().then(result => {
-            if (result.type == "STUDENT_SUCCESS") {
-                this.props.fetchQuestPaths().then(() => {
+        this.props.fetchQuestPaths().then(result => {
+            if (result.type == "STUDENT_QUESTPATHS_SUCCESS") {
+                this.props.fetchStudents().then(() => {
                    // The interface should render straight away
                     this.props.hideLoading();
                 }).catch(error => { console.error(error); this.props.hideLoading();});
@@ -142,7 +142,7 @@ class SplashPage extends Component {
                            { id: "id", title: "Quest Active?", itemClass: "middle", headerClass: "center", render: this.renderActive}];
 
         return (
-            <Table columns={columnsSpec} items={this.props.students} data={this.props.studentData} handleClick={this.handleClick}/>
+            <Table striped={true} columns={columnsSpec} items={this.props.students} data={this.props.studentData} handleClick={this.handleClick}/>
         );
     }
 

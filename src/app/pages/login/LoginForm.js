@@ -15,11 +15,11 @@ const LoginForm = props => {
                 <form onSubmit={handleSubmit(onValidate)}>
                     <fieldset>
                         <div className="form-group">
-                            <Field component="input" className="form-control" placeholder="E-mail" name="email" type="email" autoFocus/>
+                            <Field component="input" className="form-control" placeholder="E-mail" id="email" name="email" type="email" autoFocus/>
                         </div>
 
                         <div className="form-group">
-                            <Field component="input"  className="form-control" placeholder="Password" name="password" type="password" value=""/>
+                            <Field component="input" className="form-control" placeholder="Password" id="password" name="password" type="password" value=""/>
                         </div>
 
                         <div className="checkbox">

@@ -68,17 +68,22 @@ export class Table extends Component {
     render() {
         const { items, data, columns } = this.props;
 
+        if ((!items) || (!data) || (items.length == 0)) {
+            return null;
+        }
+
         let groupBy = "";
         // Check column config
         for (let c = 0; c < columns.length; c++) {
             if (columns[c].rowSpan) {
                 groupBy = columns[c].rowSpan;
-                break;
             }
-        }
 
-        if ((!items) || (!data)) {
-            return null;
+            // Pick out the first row - check if the table is actually ready for reading.
+
+            if (typeof (data[items[0]][columns[c].id]) == "undefined") {
+                return null;
+            }
         }
 
         var flattenArray = preprocessTable(items, data, groupBy);
@@ -103,7 +108,11 @@ export class Table extends Component {
 
                         {flattenArray.map(function(context, i){
 
-                            return (<tr key={i}>
+                            // No columns defined
+                            if (typeof context == "undefined") {
+                                return [];
+                            }
+                            return (<tr className={context.stripeRow?"style-striped "+ styles.stripe:""} key={i}>
                                     {this.props.columns.map(function(colValue, c){
 
                                         if (context.dontRender && colValue.rowSpan) {
@@ -172,12 +181,15 @@ const preprocessTable = (items, data, groupBy = null) => {
     if (groupBy == false) {
         for (var i = 0; i < items.length; i++) {
             const context = data[items[i]];
+            var stripeRow = i%2;
+            context.stripeRow = true;
             flattenArray.push(context);
         }
     } else {
-
         // Preprocess the table in order to get it in the correct format for rendering
         for (var i = 0; i < items.length; i++) {
+            var stripeRow = i%2;
+
             const context = data[items[i]];
             // Resolve group by in context
             if (context[groupBy]) {
@@ -191,6 +203,9 @@ const preprocessTable = (items, data, groupBy = null) => {
                     if (j != 0) {
                         object2.dontRender = true;
                     }
+
+                    object2.stripeRow = stripeRow;
+
                     flattenArray.push(object2);
                 }
             }
