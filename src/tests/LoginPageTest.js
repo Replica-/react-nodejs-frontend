@@ -3,7 +3,8 @@ import { Provider } from 'react-redux'
 var React = require('react');
 var expect = require('expect');
 import { AppContainer } from 'react-hot-loader';
-const middlewares = [thunk]
+import api from '../middleware/api';
+const middlewares = [thunk, api]
 import { mount, shallow } from 'enzyme';
 import thunk from 'redux-thunk'
 
@@ -55,7 +56,15 @@ describe('LOGIN PAGE COMPONENT #', function () {
         input = form.find("input#password").first();
         input.simulate('change', { target: { value: 'abc123' } })
 
-        //form.find('[type="submit"]').first().simulate("submit");
+        form.find('[type="submit"]').first().simulate("submit");
+
+        let actionLength = store.getActions().length;
+        // Check middleware action
+        expect(store.getActions()[actionLength-2]).toEqual({type: 'AUTH_SUCCESS'});
+
+        // Check start submit
+        expect(store.getActions()[store.getActions().length-1]).toEqual({type: '@@redux-form/START_SUBMIT', meta: {form: 'login'}});
+
     });
 
 });
