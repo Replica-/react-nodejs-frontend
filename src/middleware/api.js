@@ -200,7 +200,15 @@ export default store => next => action => {
     const [ requestType, successType, failureType ] = types
     next(actionWith({ type: requestType }))
 
-     return callApi(endpoint, schema, method, body, store, parameter, form).then(
+    if (config.appEnv == "test") {
+
+        return new Promise(function (resolve, reject) {
+            next(actionWith({ type: successType }));
+        });
+    }
+
+
+    return callApi(endpoint, schema, method, body, store, parameter, form).then(
          // Success response
          response => next(actionWith({
             response,
