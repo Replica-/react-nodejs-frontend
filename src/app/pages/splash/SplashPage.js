@@ -20,16 +20,21 @@ class SplashPage extends Component {
     componentDidMount() {
 
         this.props.showLoading();
+
         this.props.fetchQuestPaths().then(result => {
             if (result.type == "STUDENT_QUESTPATHS_SUCCESS") {
-                this.props.fetchStudents().then(() => {
-                   // The interface should render straight away
-                    this.props.hideLoading();
-                }).catch(error => { console.error(error); this.props.hideLoading();});
+                return this.props.fetchStudents();
             } else {
                 this.props.hideLoading();
+                Promise.reject();
             }
-        }).catch(error => { console.error(error); this.props.hideLoading();});
+        }).then((result,error) => {
+            // The interface should render straight away
+            this.props.hideLoading();
+            Promise.resolve();
+
+        }).catch(error => { console.error(error); this.props.hideLoading(); throw error;});
+
     }
 
     /**

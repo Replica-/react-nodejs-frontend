@@ -40,30 +40,32 @@ class LoginPage extends Component {
         }
 
         // Attempt to authenticate
-        return dispatch(authenticate(form.email, form.password)).then(result => {
+        return dispatch(authenticate(form.email, form.password)).then((result,error) => {
 
             if (result.type == "AUTH_SUCCESS"){
-
-                // Attempt to fetch the oauth2 token
-                return this.props.fetchToken().then(result => {
-                    if (result.type == "TOKEN_SUCCESS"){
-                        // We should redirect now
-                        this.props.history.push("/splash");
-                    } else {
-                        throw new SubmissionError({
-                            email: 'User or password is incorrect',
-                            _error: 'Login failed!',
-                        });
-                    }
-                }).catch(error => { console.error(error); this.props.hideLoading(); throw error;});
-
+                return this.props.fetchToken();
             } else {
                 throw new SubmissionError({
                     email: 'User or password is incorrect',
                     _error: 'Login failed!',
                 });
+
+                return Promise.reject();
+            }
+        }).then((result,error) => {
+            if (result.type == "TOKEN_SUCCESS"){
+                // We should redirect now
+                this.props.history.push("/splash");
+                return Promise.resolve();
+            } else {
+                throw new SubmissionError({
+                    email: 'User or password is incorrect',
+                    _error: 'Login failed!',
+                });
+                return Promise.reject();
             }
         }).catch(error => { console.error(error); this.props.hideLoading(); throw error;});
+
 
     }
 
