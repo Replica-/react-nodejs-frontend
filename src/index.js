@@ -14,6 +14,8 @@ var jquery = require('jquery');
 window.jQuery = jquery;
 window.$ = jquery;
 
+import 'font-awesome/css/font-awesome.min.css';
+import 'bootstrap/dist/js/bootstrap.js'
 require('./assets/bootstrap/bootstrap.css');
 require('./assets/bootstrap-theme/css/sb-admin-2.css');
 
