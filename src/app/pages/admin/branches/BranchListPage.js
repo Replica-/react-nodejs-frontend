@@ -11,6 +11,8 @@ export class BranchListPage extends Component {
 
     constructor (props) {
         super(props);
+
+        this.handleItemClick = this.handleItemClick.bind(this);
     }
 
     componentDidMount() {
@@ -41,22 +43,51 @@ export class BranchListPage extends Component {
 
     }
 
+
+    /**
+     * Handle Item Click - Stub for item click
+     */
+    handleItemClick(event, item) {
+        this.props.history.push("branches/" + item.id);
+    }
+
     render() {
 
         // Future: Expand id to handle more complicated array path definitions. eg. id: quest.submitted
-        let columnsSpec = [{id: "id", title: "Branch ID", itemClass: "middle"},
-            {id: "name",title: "Branch Name", itemClass: "middle"},
-            {id: "users",title: "Branch Users"}];
+        let columnsSpec = [{id: "id", title: "Branch ID", itemClass: "middle", itemClick: this.handleItemClick},
+            {id: "name",title: "Branch Name", itemClass: "middle"}];
 
-        return (
-            <Table striped={true} columns={columnsSpec} items={this.props.branches} data={this.props.branchData} handleClick={this.handleClick}/>
+        /*
+
+         <button type="button" class="btn btn-default btn-circle"><i class="fa fa-check"></i>
+         </button>
+         <button type="button" class="btn btn-primary btn-circle"><i class="fa fa-list"></i>
+         </button>
+         <button type="button" class="btn btn-success btn-circle"><i class="fa fa-link"></i>
+         </button>
+         <button type="button" class="btn btn-info btn-circle"><i class="fa fa-check"></i>
+         </button>
+         <button type="button" class="btn btn-warning btn-circle"><i class="fa fa-times"></i>
+         </button>
+         <button type="button" class="btn btn-danger btn-circle"><i class="fa fa-heart"></i>
+         </button>
+         */
+
+        return (<div>
+                <div>
+
+                </div>
+
+            <Table striped={false} columns={columnsSpec} items={this.props.branches} data={this.props.branchData} handleClick={this.handleClick}/></div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
 
-    let branches = safe(state.entities,[ "branches" ], {});
+    let branches = safe(state.entities,[ "branch" ], {});
+
+    console.error(branches);
 
     return {
         branches: Object.keys(branches),

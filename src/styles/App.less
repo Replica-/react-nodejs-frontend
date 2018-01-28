@@ -48,17 +48,18 @@ p.glyphicon {
 
 .fade-enter.fade-enter-active {
   opacity: 1;
-  transition: opacity 250ms ease-in;
+  transition: opacity 500ms ease-in;
 }
 
 .fade-leave {
-  opacity: 1;
+  opacity: 0;
   z-index: 1;
 }
 
 .fade-leave.fade-leave-active {
   opacity: 0;
-  transition: opacity 250ms ease-in;
+  display: none; /* remove this later*/
+  transition: opacity 500ms ease-in;
 }
 
 .navbar-static-top {
@@ -73,6 +74,10 @@ button.btn {
   padding-top: 9px;
   padding-bottom: 9px;
 
+}
+
+.page.fade-enter-active, .page.fade-leave-active {
+  //float: left;
 }
 
 .page {

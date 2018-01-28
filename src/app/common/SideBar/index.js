@@ -26,7 +26,7 @@ export default class SideBar extends Component {
 
                     </li>
                     <li>
-                        <a href='index.html' className='active'><i className='fa fa-dashboard fa-fw'></i> Dashboard</a>
+                        <Link to="/splash"><i className='fa fa-dashboard fa-fw'></i> Dashboard</Link>
                     </li>
 
                     <li>
@@ -39,7 +39,7 @@ export default class SideBar extends Component {
                                 <a href='/Roles'>Permissions</a>
                             </li>
                             <li>
-                                <Link to="/Branches">Branches</Link>
+                                <Link to="/branches">Branches</Link>
 
                             </li>
                         </ul>

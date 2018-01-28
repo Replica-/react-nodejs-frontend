@@ -22,18 +22,29 @@ export class Table extends Component {
      *
      * @return html item
      */
-    renderItem(colName, context, data, className = "") {
+    renderItem(colName, context, data, itemClick) {
 
         type(colName, ["string"]);
         type(context, ["object"]);
         type(data, ["string", "number"]);
-        type(className, ["string"]);
+        type(itemClick, ["function"], true);
 
-        return (
-            <div className={className}>
-            <span>{data}</span>
-            </div>
-        );
+        if (itemClick) {
+
+            return (
+                <div onClick={(e) => itemClick(e, context)}>
+                <span>{data}</span>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                <span>{data}</span>
+                </div>
+            );
+        }
+
+
     }
 
     /**
@@ -140,10 +151,14 @@ export class Table extends Component {
                                             renderItem = colValue.render;
                                         }
 
+                                        const itemClick = (colValue.itemClick?colValue.itemClick:null);
+
+
+
                                         if (typeof itemValue == "undefined" ) {
                                             return (<td key={i + "_" + c}></td>);
                                         } else {
-                                            return (<td rowSpan={rowSpan} className={className} key={i + "_" + c}>{renderItem(column , context, itemValue)}</td>);
+                                            return (<td rowSpan={rowSpan} className={className} key={i + "_" + c}>{renderItem(column , context, itemValue, itemClick)}</td>);
                                         }
 
                                     }.bind(this))}

@@ -40,7 +40,7 @@ export function type(object, type, optional = false) {
             throw new Error("Recieved NULL " + typeof(object) + " - expected " + type);
         }
     } else {
-        if ((object == null) && (typeof object == "undefined")) {
+        if ((object == null) && ((typeof object == "undefined") || (typeof object == "object"))) {
             return true;
         }
     }

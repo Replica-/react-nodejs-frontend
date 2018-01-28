@@ -139,7 +139,7 @@ const studentReferenceSchema = new Schema('student', {
     idAttribute: 'userId'
 });
 
-const branchSchema = new Schema('student', {
+const branchSchema = new Schema('branch', {
     idAttribute: 'id'
 });
 
