@@ -6,38 +6,44 @@ export default class NavBar extends Component {
         let authenticatedHtml = null;
 
         if (this.props.showAuthenticated) {
-            authenticatedHtml =
-                (<div>
-                    <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            authenticatedHtml = [(
+                <button key={2} type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                     <span className="sr-only">Toggle navigation</span>
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                 </button>
-
-
-                <ul className="navbar-top-links navbar-right">
-                <li className='dropdown'>
-                <a className='dropdown-toggle' data-toggle='dropdown' href='#' aria-expanded='true'>
-                <i className='fa fa-user fa-fw'></i> <i className='fa fa-caret-down'></i>
+             ),(
+                <div key={3} className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a className="dropdown-item" href="#">Action</a>
+                    <a className="dropdown-item" href="#">Another action</a>
+                    <a className="dropdown-item" href="#">Something else here</a>
+                </div>
+            ),(
+            <ul key={4} className="nav navbar-top-links right">
+                <li className="dropdown">
+                <a className="dropdown-toggle" data-toggle="dropdown" data-offset="-250" href="#" aria-expanded="false">
+                <i className="fa fa-user fa-fw"></i> <i className="fa fa-caret-down"></i>
                 </a>
-                <ul className='dropdown-menu dropdown-user'>
-                <li><a href='#'><i className='fa fa-user fa-fw'></i> User Profile</a>
-            </li>
-            <li><a href='#'><i className='fa fa-gear fa-fw'></i> Settings</a>
-                </li>
-                <li className='divider'></li>
-                <li><a href='login.html'><i className='fa fa-sign-out fa-fw'></i> Logout</a>
-                </li>
-                </ul>
-                </li>
-                </ul></div>);
+                <ul className="dropdown-menu dropdown-messages">
+                <li>
+                <a href="#">
+                <div>
+                <strong>John Smith</strong>
+            <span className="pull-right text-muted">
+                <em>Yesterday</em>
+                </span>
+                </div>
+                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+            </a>
+            </li></ul></li></ul>
+            )
+        ];
         }
-
 
         return (
             <nav className="nav navbar-default navbar-static-top" role="navigation">
-                <div className="navbar-header">
+                <div className="">
                     <a className="navbar-brand" href="index.html">Toro Solutions</a>
 
                     {(this.props.showAuthenticated)?authenticatedHtml:null}

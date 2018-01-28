@@ -139,12 +139,19 @@ const studentReferenceSchema = new Schema('student', {
     idAttribute: 'userId'
 });
 
+const branchSchema = new Schema('student', {
+    idAttribute: 'id'
+});
+
 const userSchema = new Schema('user', {
     assignEntity: false
 })
 
 export const Schemas = {
     NONE: 0,
+    BRANCHES: branchSchema,
+    BRANCHES_ARRAY: arrayOf(branchSchema),
+
     STUDENT: studentSchema,
     STUDENT_ARRAY: arrayOf(studentSchema),
     STUDENT_REFERENCE_ARRAY: arrayOf(studentReferenceSchema),

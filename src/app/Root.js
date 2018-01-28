@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import LoginPage from 'pages/login/LoginPage'
 import SplashPage from 'pages/splash/SplashPage'
+import BranchPage from 'pages/admin/branches/BranchListPage'
 
 import App from './App'
 
@@ -66,7 +67,20 @@ class Root extends Component {
                                     path="/splash"
                                     component={SplashPage}
                                 />
+
                             </Transition>
+
+                            <Transition>
+                                <PrivateRoute
+                                authenticated={auth}
+                                location={location}
+                                key={location.key}
+                                path="/branches"
+                                component={BranchPage}
+                                />
+
+                            </Transition>
+
                         </App>
                     )}/>
                 </ConnectedRouter>
