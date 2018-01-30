@@ -20,23 +20,29 @@ export default class NavBar extends Component {
                     <a className="dropdown-item" href="#">Something else here</a>
                 </div>
             ),(
-            <ul key={4} className="nav navbar-top-links right">
-                <li className="dropdown">
-                <a className="dropdown-toggle" data-toggle="dropdown" data-offset="-250" href="#" aria-expanded="false">
-                <i className="fa fa-user fa-fw"></i> <i className="fa fa-caret-down"></i>
-                </a>
-                <ul className="dropdown-menu dropdown-messages">
-                <li>
-                <a href="#">
-                <div>
-                <strong>John Smith</strong>
-            <span className="pull-right text-muted">
-                <em>Yesterday</em>
-                </span>
-                </div>
-                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-            </a>
-            </li></ul></li></ul>
+                <ul key={4} className="nav navbar-top-links right">
+                    <li className="dropdown">
+
+                    <a className="dropdown-toggle" data-toggle="dropdown" data-offset="-250" href="#" aria-expanded="false">
+                        <i className="fa fa-user fa-fw"></i> <i className="fa fa-caret-down"></i>
+                    </a>
+
+                    <ul className="dropdown-menu dropdown-messages">
+
+                    <li>
+                        <a href="#">
+                        <div>
+                            <strong>John Smith</strong>
+                            <span className="pull-right text-muted">
+                            <em>Yesterday</em>
+                            </span>
+                        </div>
+                        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                        </a>
+                    </li>
+                    </ul>
+                    </li>
+                </ul>
             )
         ];
         }

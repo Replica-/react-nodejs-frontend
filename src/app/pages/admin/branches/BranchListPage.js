@@ -7,6 +7,8 @@ import { fetchBranches } from './BranchListActions'
 import { Table } from 'common/Table';
 import PropTypes from 'prop-types';
 
+import { pushBreadcrumb, popBreadcrumb } from 'common/BreadCrumb';
+
 export class BranchListPage extends Component {
 
     constructor (props) {
@@ -48,6 +50,8 @@ export class BranchListPage extends Component {
      * Handle Item Click - Stub for item click
      */
     handleItemClick(event, item) {
+
+        this.props.pushBreadcrumb(this.props.history.location.pathname, this.props.title);
         this.props.history.push("branches/" + item.id);
     }
 
@@ -90,6 +94,7 @@ const mapStateToProps = (state) => {
     console.error(branches);
 
     return {
+        title: "Branches",
         branches: Object.keys(branches),
         branchData: branches,
         hideLoading: PropTypes.func.isRequired,
@@ -97,4 +102,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { showLoading, hideLoading, fetchBranches }) (PageComponent(BranchListPage))
+export default connect(mapStateToProps, { showLoading, hideLoading, fetchBranches, pushBreadcrumb }) (PageComponent(BranchListPage))

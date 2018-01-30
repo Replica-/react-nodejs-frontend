@@ -1,3 +1,4 @@
+Torosolutions (Daniel Santoro 2018 http://www.torosolutions.com.au)
 
 # React - Redux - Karma - Redux frontend
 

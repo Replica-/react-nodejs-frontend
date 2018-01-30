@@ -158,6 +158,7 @@ const mapStateToProps = (state) => {
     let students = safe(state.entities,[ "student" ], {});
 
     return {
+        title: "Students",
         students: Object.keys(students),
         studentData: students,
         hideLoading: PropTypes.func.isRequired,

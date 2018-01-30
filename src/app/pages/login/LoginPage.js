@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { PageComponent }  from 'common/Page';
 import LoginForm from './LoginForm'
+import { pushBreadcrumb } from 'common/BreadCrumb/actions';
 import {Col} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import styles from './style.acss';
@@ -84,8 +85,9 @@ const mapStateToProps = () => {
 
     return {
         showLoading: PropTypes.func.isRequired,
-        hideLoading: PropTypes.func.isRequired
+        hideLoading: PropTypes.func.isRequired,
+        pushBreadcrumb: PropTypes.func.isRequired
     }
 }
 
-export default connect(mapStateToProps, { showLoading, hideLoading, authenticate, fetchToken }) (PageComponent(LoginPage))
+export default connect(mapStateToProps, { showLoading, hideLoading, authenticate, fetchToken, pushBreadcrumb }) (PageComponent(LoginPage))

@@ -1,8 +1,8 @@
 import React from 'react'
 
-// This function takes a component...
+
+// This component serves to be a higher order component that react can work with. Straight class inheritance doesn't work quite well so this method must be used.
 export function PageComponent(WrappedComponent) {
-    // ...and returns another component...
     return class extends React.Component {
         constructor(props) {
             super(props);
@@ -21,10 +21,18 @@ export function PageComponent(WrappedComponent) {
 
         }
 
+        // Basically render title if it exists
         render() {
-            // ... and renders the wrapped component with the fresh data!
-            // Notice that we pass through any additional props
-            return (<div className={'Page Page-' + WrappedComponent.name}><WrappedComponent{...this.props} /></div>);
+
+            let header = (this.props.title?<h1 className="page-header">{this.props.title}</h1>:null);
+
+            let html =
+                    (<div className={'Page Page-' + WrappedComponent.name}>
+                        {header}
+                        <WrappedComponent{...this.props} />
+                    </div>);
+
+            return html;
         }
     };
 }

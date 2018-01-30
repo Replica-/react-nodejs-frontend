@@ -3,9 +3,7 @@ import React, { Component } from "react";
 //import { Nav, NavItem, Button, ButtonToolbar } from 'react-bootstrap';
 import styles from './style.acss';
 
-import { Link } from 'react-router-dom'
-
-
+import Link from 'common/BreadCrumb/BreadLink';
 
 export default class SideBar extends Component {
     render() {
@@ -23,7 +21,6 @@ export default class SideBar extends Component {
                         </button>
                         </span>
                     </div>
-
                     </li>
                     <li>
                         <Link to="/splash"><i className='fa fa-dashboard fa-fw'></i> Dashboard</Link>
@@ -40,10 +37,8 @@ export default class SideBar extends Component {
                             </li>
                             <li>
                                 <Link to="/branches">Branches</Link>
-
                             </li>
                         </ul>
-
                     </li>
                 </ul>
                 </div>

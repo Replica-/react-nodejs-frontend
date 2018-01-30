@@ -46,7 +46,7 @@ class Root extends Component {
             <Provider store={store}>
                 <ConnectedRouter history={history}>
                     <Route render={({ location }) => (
-                        <App>
+                        <App history={history}>
                             <Transition>
                                 <Route path="/" exact location={location}  key={location.key} component={LoginPage}/>
                             </Transition>

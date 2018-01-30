@@ -2,11 +2,12 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
+import { safe } from 'common/Functions'
 
 let BranchListViewForm = props => {
-    const { error, handleSubmit, pristine, /*reset,*/ submitting, onValidate } = props;
+    const { error, handleSubmit, submitSucceeded, pristine, submitting, onValidate, successMessage } = props;
 
-    return (
+        return (
         <div className="login-panel panel panel-default">
             <div className="panel-heading">
                 <h3 className="panel-title">Edit branch</h3>
@@ -14,6 +15,7 @@ let BranchListViewForm = props => {
 
             <div className="panel-body">
                 {!submitting && error && <div className="alert alert-danger">{error}</div>}
+                {!submitting && submitSucceeded && !error && <div className="alert alert-success">Branch Updated</div>}
                 <form onSubmit={handleSubmit(onValidate)}>
                     <fieldset>
                         <div className="form-group">
@@ -44,9 +46,8 @@ BranchListViewForm = reduxForm({
 
 const mapStateToProps = (state, ownProps) => {
 
-    console.error(ownProps.initial);
-
     return {
+        //formSubmitted: safe(state.form, ['BranchListViewForm', 'submitSucceeded'], false),
         initialValues: ownProps.initial, // pull initial values from account reducer
         hideLoading: PropTypes.func.isRequired,
         showLoading: PropTypes.func.isRequired

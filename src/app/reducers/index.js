@@ -25,25 +25,40 @@ function page(state = { }, action) {
     return merge({}, state, action.response.page)
   }
 
-  return state
+  return state;
 }
 
 // Updates an entity cache in response to any action with response.entities.
-function config(state = { }, action) {
-
+function config(state = { stack: [] }, action) {
   if (action.response && action.response.config) {
 
-    if (action.mode == "unset") {
-      if (state.page) {
-        delete state.page;
-      }
+    if (action.type == 'BREADCRUMB_CLEAR') {
+      state.stack = [];
+
       return merge({}, state);
+    }
+
+    if (action.type == 'BREADCRUMB_POP') {
+      state.stack = state.stack.slice(0, -action.response);
+      return merge({}, state);
+    }
+
+    if (action.type == 'BREADCRUMB_PUSH') {
+      console.error(state);
+
+      if (state.stack == null)
+        state.stack = [action.response.config.stack];
+      else
+        state.stack.push(action.response.config.stack);
+
+      return merge({}, state, {});
+      //return state;
     }
 
     return merge({}, state, action.response.config)
   }
 
-  return merge({}, state);
+  return state;
 }
 
 const rootReducer = combineReducers({

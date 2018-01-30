@@ -7,11 +7,14 @@ import { saveBranch } from './BranchListActions'
 import BranchListViewForm from './BranchListViewForm'
 import { Table } from 'common/Table';
 import PropTypes from 'prop-types';
+import { SubmissionError } from 'redux-form';
 
 export class BranchListViewPage extends Component {
 
     constructor (props) {
         super(props);
+
+        this.handleValidate = this.handleValidate.bind(this);
     }
 
     componentDidMount() {
@@ -39,31 +42,26 @@ export class BranchListViewPage extends Component {
         dispatch(showLoading());
 
         // Attempt to authenticate
-        return dispatch(authenticate(form.email, form.password)).then((result,error) => {
+        return dispatch(saveBranch(form)).then((result,error) => {
+                if (result.type == "BRANCH_SAVE_SUCCESS"){
 
-                if (result.type == "AUTH_SUCCESS"){
-            return this.props.fetchToken();
-        } else {
-            throw new SubmissionError({
-                email: 'User or password is incorrect',
-                _error: 'Login failed!',
-            });
+                    this.props.hideLoading();
 
-            return Promise.reject();
-        }
-    }).then((result,error) => {
-            if (result.type == "TOKEN_SUCCESS"){
-            // We should redirect now
-            this.props.history.push("/splash");
-            return Promise.resolve();
-        } else {
-            throw new SubmissionError({
-                email: 'User or password is incorrect',
-                _error: 'Login failed!',
-            });
-            return Promise.reject();
-        }
-    }).catch(error => { console.error(error); this.props.hideLoading(); throw error;});
+                    return Promise.resolve();
+
+                } else {
+                    throw new SubmissionError({
+                        name: 'User or password is incorrect',
+                        _error: 'Login failed!',
+                    });
+
+                    return Promise.reject();
+                }
+
+        }).catch(error => { console.error(error); this.props.hideLoading(); throw error;
+        }).then((result, error) => {
+            //this.props.showSuccess();
+        });
 
     }
 
@@ -83,10 +81,11 @@ const mapStateToProps = (state, ownProps) => {
     const entity = safe(state.entities, ["branch", id], null);
 
     return {
+        title: "Branch view",
         branch: entity,
         hideLoading: PropTypes.func.isRequired,
         showLoading: PropTypes.func.isRequired
     }
 }
 
-export default connect(mapStateToProps, { showLoading, hideLoading  }) (PageComponent(BranchListViewPage))
+export default connect(mapStateToProps, { showLoading, hideLoading, saveBranch  }) (PageComponent(BranchListViewPage))
