@@ -71,7 +71,7 @@
     "minimist": "^1.2.0",
     "mocha": "^2.2.5",
     "node-sass": "^3.4.2",
-    "normalizr": "^2.0.1",
+    "normalizr": "^3.2.4",
     "null-loader": "^0.1.1",
     "open": "0.0.5",
     "path": "^0.12.7",

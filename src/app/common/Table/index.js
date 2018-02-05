@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import styles from './style.acss';
 import { connect } from 'react-redux';
-import { type } from 'common/Functions';
+import { type, safe } from 'common/Functions';
 
 export class Table extends Component {
     constructor (props) {
@@ -22,12 +22,20 @@ export class Table extends Component {
      *
      * @return html item
      */
-    renderItem(colName, context, data, itemClick) {
+    renderItem(colName, context, data, itemClick, colValue) {
 
         type(colName, ["string"]);
         type(context, ["object"]);
         type(data, ["string", "number"]);
         type(itemClick, ["function"], true);
+
+        if (colValue.lookup) {
+            if ((colValue.lookup.context) && (colValue.lookup.key)) {
+                data = safe(colValue.lookup, ["context", data, colValue.lookup.key], "");
+            } else {
+                throw "Require both context and key";
+            }
+        }
 
         if (itemClick) {
 
@@ -158,7 +166,7 @@ export class Table extends Component {
                                         if (typeof itemValue == "undefined" ) {
                                             return (<td key={i + "_" + c}></td>);
                                         } else {
-                                            return (<td rowSpan={rowSpan} className={className} key={i + "_" + c}>{renderItem(column , context, itemValue, itemClick)}</td>);
+                                            return (<td rowSpan={rowSpan} className={className} key={i + "_" + c}>{renderItem(column , context, itemValue, itemClick, colValue)}</td>);
                                         }
 
                                     }.bind(this))}

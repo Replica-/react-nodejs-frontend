@@ -15,7 +15,7 @@ export function fetchBranches() {
             types: [ BRANCHES_REQUEST, BRANCHES_SUCCESS, BRANCHES_FAILURE ],
             endpoint: '/me/branches',
             method: 'GET',
-            schema: Schemas.BRANCHES_ARRAY
+            schema: Schemas.ORGANISATIONS_ARRAY
         }
     }
 }
@@ -27,7 +27,7 @@ export function saveBranch(branch) {
             types: [ BRANCH_SAVE_REQUEST, BRANCH_SAVE_SUCCESS, BRANCH_SAVE_FAILURE ],
             endpoint: '/branch/' + branch.id,
             method: 'PATCH',
-            schema: Schemas.BRANCHES,
+            schema: Schemas.ORGANISATIONS,
             form: branch
         }
     }

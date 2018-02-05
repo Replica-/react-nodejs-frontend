@@ -5,7 +5,7 @@ import LoginPage from 'pages/login/LoginPage'
 import SplashPage from 'pages/splash/SplashPage'
 import BranchListPage from 'pages/admin/branches/BranchListPage'
 import BranchListViewPage from 'pages/admin/branches/BranchListViewPage'
-
+import { OrganisationListViewPage, OrganisationListPage  } from 'pages/admin/organisations'
 import App from './App'
 
 import { Provider } from 'react-redux'
@@ -92,6 +92,14 @@ class Root extends Component {
 
                             </Transition>
 
+
+                            <Transition>
+                                <PrivateRoute exact location={location} key={location.key} path="/organisations" component={OrganisationListPage}/>
+                            </Transition>
+
+                            <Transition>
+                                <PrivateRoute location={location} key={location.key} path="/organisations/:id" component={OrganisationListViewPage}/>
+                            </Transition>
                         </App>
                     )}/>
                 </ConnectedRouter>

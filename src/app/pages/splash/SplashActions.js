@@ -8,6 +8,14 @@ export const STUDENT_QUESTPATHS_REQUEST = 'STUDENT_QUESTPATHS_REQUEST';
 export const STUDENT_QUESTPATHS_SUCCESS = 'STUDENT_QUESTPATHS_SUCCESS';
 export const STUDENT_QUESTPATHS_FAILURE = 'STUDENT_QUESTPATHS_FAILURE';
 
+export const INPUT_CHANGE = 'INPUT_CHANGE';
+
+// Fetch if not cached
+export function inputChange(text) {
+    return (dispatch) => {
+        dispatch({type:INPUT_CHANGE, response: {page: { splashPage : text }}});
+    }
+}
 export function fetchStudents() {
     return {
         [CALL_API]: {

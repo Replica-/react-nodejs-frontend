@@ -6,7 +6,7 @@
 // Middleware action key
 export const CALL_API = Symbol('Call API')
 
-import { Schema, arrayOf, normalize } from 'normalizr'
+import { schema, arrayOf, normalize } from 'normalizr'
 import { camelizeKeys } from 'humps'
 import 'isomorphic-fetch'
 import { safe, type } from 'common/Functions';
@@ -113,7 +113,7 @@ function callApi(endpoint, schema, method, body, store, parameter, form) {
             const nextPageUrl = getNextPageUrl(response)
 
             // If the schema doesn't assign entity, just store into state tree as is.
-            if (schema._assignEntity === false) {
+            if (schema.schema && schema.schema.assignEntity === false) {
                 const camelizedJson = camelizeKeys(json.data);
 
                 let mergeObject = {};
@@ -122,6 +122,8 @@ function callApi(endpoint, schema, method, body, store, parameter, form) {
                 return Object.assign({}, mergeObject,
                     { nextPageUrl, parameter });
             } else {
+                let test = normalize(camelizedJson, schema);
+
                 return Object.assign({},
                     normalize(camelizedJson, schema),
                     { nextPageUrl, parameter }
@@ -130,31 +132,33 @@ function callApi(endpoint, schema, method, body, store, parameter, form) {
         })
 }
 
+
+
+
 /*
 * Normlizr (Schemas) is used to transform API responses to a flat form so that response can easily be merged into the state tree
 * These schemas will at some stage be moved into the actions. API middleware should not be defining the schemas.
 */
-const studentSchema = new Schema('student');
-const studentReferenceSchema = new Schema('student', {
-    idAttribute: 'userId'
+const studentSchema = new schema.Entity('student');
+const studentReferenceSchema = new schema.Entity('student', {}, {idAttribute: 'userId'});
+
+const branchSchema = new schema.Entity('branch');
+const orgSchema = new schema.Entity('org', {
+    branches:[branchSchema],
 });
 
-const branchSchema = new Schema('branch', {
-    idAttribute: 'id'
-});
-
-const userSchema = new Schema('user', {
-    assignEntity: false
-})
+const userSchema = new schema.Entity('user', {
+    assignEntity: false});
 
 export const Schemas = {
     NONE: 0,
     BRANCHES: branchSchema,
-    BRANCHES_ARRAY: arrayOf(branchSchema),
-
+    BRANCHES_ARRAY: [branchSchema],
+    ORGANISATIONS: orgSchema,
+    ORGANISATIONS_ARRAY: [orgSchema],
     STUDENT: studentSchema,
-    STUDENT_ARRAY: arrayOf(studentSchema),
-    STUDENT_REFERENCE_ARRAY: arrayOf(studentReferenceSchema),
+    STUDENT_ARRAY: [studentSchema],
+    STUDENT_REFERENCE_ARRAY: [studentReferenceSchema],
     USER: userSchema
 }
 

@@ -7,7 +7,7 @@ import { Table } from 'common/Table';
 import { Icon } from 'common/Icon';
 import PropTypes from 'prop-types';
 import { showLoading, hideLoading } from 'common/CommonActions'
-import { fetchStudents, fetchQuestPaths } from './SplashActions'
+import { inputChange, fetchStudents, fetchQuestPaths } from './SplashActions'
 
 class SplashPage extends Component {
 
@@ -15,6 +15,7 @@ class SplashPage extends Component {
         super(props);
 
         this.renderQuest = this.renderQuest.bind(this);
+        this.onTextChange = this.onTextChange.bind(this);
     }
 
     componentDidMount() {
@@ -135,6 +136,10 @@ class SplashPage extends Component {
 
     }
 
+    onTextChange() {
+        this.props.inputChange(this.refs.input.value);
+    }
+
     render() {
 
         // Future: Expand id to handle more complicated array path definitions. eg. id: quest.submitted
@@ -145,9 +150,10 @@ class SplashPage extends Component {
                            { id: "id", title: "Quest Completion", itemClass: "middle center",headerClass: "center", render: this.renderCompletion},
                            { id: "id", title: "Quest Mark", itemClass: "middle", headerClass: "center", render: this.renderMark},
                            { id: "id", title: "Quest Active?", itemClass: "middle", headerClass: "center", render: this.renderActive}];
-
         return (
-            <Table striped={true} columns={columnsSpec} items={this.props.students} data={this.props.studentData} handleClick={this.handleClick}/>
+                <div>
+                    <Table striped={true} columns={columnsSpec} items={this.props.students} data={this.props.studentData} handleClick={this.handleClick}/>
+                </div>
         );
     }
 
@@ -157,13 +163,15 @@ const mapStateToProps = (state) => {
 
     let students = safe(state.entities,[ "student" ], {});
 
+
     return {
         title: "Students",
         students: Object.keys(students),
         studentData: students,
         hideLoading: PropTypes.func.isRequired,
-        showLoading: PropTypes.func.isRequired
+        showLoading: PropTypes.func.isRequired,
+        inputChange: PropTypes.func.isRequired
     }
 }
 
-export default connect(mapStateToProps, { showLoading, hideLoading, fetchStudents, fetchQuestPaths }) (PageComponent(SplashPage))
+export default connect(mapStateToProps, { showLoading, hideLoading, fetchStudents, fetchQuestPaths, inputChange }) (PageComponent(SplashPage))

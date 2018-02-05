@@ -38,6 +38,9 @@ export default class SideBar extends Component {
                             <li>
                                 <Link to="/branches">Branches</Link>
                             </li>
+                            <li>
+                                <Link to="/organisations">Organistions</Link>
+                            </li>
                         </ul>
                     </li>
                 </ul>
