@@ -75,6 +75,7 @@ function callApi(endpoint, schema, method, body, store, parameter, form) {
 
         initObject = {
             method:method,
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                 'X-Access-Token' :token
@@ -84,6 +85,7 @@ function callApi(endpoint, schema, method, body, store, parameter, form) {
     } else {
         initObject = {
             method:method,
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
                 'X-Access-Token' : token
