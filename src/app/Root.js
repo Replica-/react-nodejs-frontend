@@ -72,7 +72,7 @@ class Root extends Component {
                             </Transition>
 
                             <Transition>
-                                <PrivateRoute exact
+                                <PrivateRoute exact strict
                                 authenticated={auth}
                                 location={location}
                                 key={location.key}
@@ -92,14 +92,18 @@ class Root extends Component {
 
                             </Transition>
 
+                            <Transition>
+                                <PrivateRoute exact strict location={location} key={location.key} path="/organisations" component={OrganisationListPage}/>
+                            </Transition>
 
                             <Transition>
-                                <PrivateRoute exact location={location} key={location.key} path="/organisations" component={OrganisationListPage}/>
+                            <PrivateRoute exact strict location={location} key={location.key} path="/organisations/" component={OrganisationListViewPage}/>
                             </Transition>
 
                             <Transition>
                                 <PrivateRoute location={location} key={location.key} path="/organisations/:id" component={OrganisationListViewPage}/>
                             </Transition>
+
                         </App>
                     )}/>
                 </ConnectedRouter>

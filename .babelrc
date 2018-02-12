@@ -4,7 +4,13 @@
     "react",
     "stage-1"
   ],
-  "plugins": [
-    "react-hot-loader/babel"
-  ]
+  "env": {
+    "test": {
+      "plugins": ["react-hot-loader/babel","istanbul"]
+    },
+     "production": {
+      "plugins": ["react-hot-loader/babel","istanbul"]
+    }
+  }
+
 }

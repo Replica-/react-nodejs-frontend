@@ -9,17 +9,35 @@ export const ORG_FETCH_SUCCESS = 'ORGANIASTION_FETCH_SUCCESS';
 export const ORG_FETCH_FAILURE = 'ORGANISATION_FETCH_FAILURE';
 
 
-export function saveOrgs(org) {
+export function saveOrg(org) {
 
-    return {
-        [CALL_API]: {
-            types: [ ORG_SAVE_REQUEST, ORG_SAVE_SUCCESS, ORG_SAVE_FAILURE ],
-            endpoint: '/org/' + organisation.id,
-            method: 'PATCH',
-            schema: Schemas.ORGANISATIONS,
-            form: org
+    if (!org.id) {
+
+        return {
+            [CALL_API]: {
+                types: [ ORG_SAVE_REQUEST, ORG_SAVE_SUCCESS, ORG_SAVE_FAILURE ],
+                endpoint: '/org',
+                method: 'POST',
+                schema: Schemas.ORGANISATIONS,
+                form: org
+            }
+        }
+
+    } else {
+
+        return {
+            [CALL_API]: {
+                types: [ ORG_SAVE_REQUEST, ORG_SAVE_SUCCESS, ORG_SAVE_FAILURE ],
+                endpoint: '/org/' + org.id,
+                method: 'PATCH',
+                schema: Schemas.ORGANISATIONS,
+                form: org
+            }
         }
     }
+
+    console.log(org);
+
 }
 
 export function fetchOrgs(ids) {

@@ -18,9 +18,10 @@ module.exports = function(config) {
       mocha: {}
     },
     singleRun: true,
-    reporters: [ 'dots' ], 
+    reporters: [ 'dots','progress', 'coverage' ], 
     preprocessors: {
-      'loadtests.js': [ 'webpack', 'sourcemap' ]
+      'loadtests.js': [ 'webpack', 'sourcemap' ],
+      './app/*.js':['webpack', 'sourcemap']
     },
     webpack: webpackCfg,
     webpackServer: {

@@ -18,7 +18,6 @@ import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
 
-
 const mockStore = configureMockStore(middlewares);
 const store = mockStore({form:{login:{email:"test" , password:"test"}}, config: {}});
 

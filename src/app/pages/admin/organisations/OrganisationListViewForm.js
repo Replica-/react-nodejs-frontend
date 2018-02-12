@@ -9,13 +9,11 @@ let OrganisationListViewForm = props => {
 
         return (
         <div className="login-panel panel panel-default">
-            <div className="panel-heading">
-                <h3 className="panel-title">Edit Organisation</h3>
-            </div>
+
 
             <div className="panel-body">
                 {!submitting && error && <div className="alert alert-danger">{error}</div>}
-                {!submitting && submitSucceeded && !error && <div className="alert alert-success">Organisation Updated</div>}
+                {!submitting && submitSucceeded && !error && <div className="alert alert-success">{props.initial == null?"Organisation Added":"Organisation Updated"}</div>}
                 <form onSubmit={handleSubmit(onValidate)}>
                     <fieldset>
                         <div className="form-group">
@@ -30,7 +28,7 @@ let OrganisationListViewForm = props => {
                         <p className="help-block">Example block-level help text here.</p>
                         </div>
 
-                        <button type="submit" className="btn btn-default btn-success"> Update</button>
+                        <button type="submit" className="btn btn-default btn-success">{props.initial == null?"Add":"Update"}</button>
                         <button type="reset" className="btn btn-default">Reset Button</button>
 
                     </fieldset>

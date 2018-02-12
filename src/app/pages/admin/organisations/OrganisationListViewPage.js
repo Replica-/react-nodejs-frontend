@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { showLoading, hideLoading } from 'common/CommonActions'
 import { safe } from 'common/Functions'
 import { PageComponent }  from 'common/Page';
-import { saveOrg, SAVE_ORG_SUCCESS } from './actions'
+import { saveOrg, ORG_SAVE_SUCCESS } from './actions'
 import OrganisationListViewForm from './OrganisationListViewForm'
 import { Table } from 'common/Table';
 import PropTypes from 'prop-types';
@@ -81,8 +81,10 @@ const mapStateToProps = (state, ownProps) => {
     const id = safe(ownProps.match , ["params", "id"], -1);
     const entity = safe(state.entities, ["org", id], null);
 
+    console.log(id);
+
     return {
-        title: "Organisation View",
+        title: (id == -1)?"Organisation Add":"Organisation View",
         data: entity,
         hideLoading: PropTypes.func.isRequired,
         showLoading: PropTypes.func.isRequired
