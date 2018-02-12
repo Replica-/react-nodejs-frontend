@@ -4,7 +4,7 @@ Torosolutions (Daniel Santoro 2018 http://www.torosolutions.com.au)
 
  - React & Redux
  - React Router, Redux Form, React Transition Groups
- - Karma & Enzyme
+ - Karma (Client testing - Chrome) & Enzyme (React testing) & Sinon (Mock, stubs, etc) & Istanbul (Code coverage)
  - Webpack
  - CSS Modules (Global styles are stored /styles)
  - API Middleware
