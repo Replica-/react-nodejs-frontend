@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { showLoading, hideLoading } from 'common/CommonActions'
 import { safe } from 'common/Functions'
 import { PageComponent }  from 'common/Page';
-import { saveBranch } from './BranchListActions'
+import { saveBranch } from './actions'
 import BranchListViewForm from './BranchListViewForm'
 import { Table } from 'common/Table';
 import PropTypes from 'prop-types';
