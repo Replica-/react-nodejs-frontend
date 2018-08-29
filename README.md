@@ -1,3 +1,5 @@
+Do not use this repo - it is out of date.
+
 Torosolutions (Daniel Santoro 2018 http://www.torosolutions.com.au)
 
 # React - Redux - Karma - Redux frontend
